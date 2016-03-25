@@ -1,0 +1,27 @@
+<div ng-controller="BackupsCtrl">
+  <div class="row topmargin">
+    <div class="small-12 columns">
+      <a href="#new_wallet" class="button small radius fa fa-plus" tooltip="{{'New wallet or restore bitcoins with 12 word backup passphrase'|_}}"> {{'New wallet (or restore from seed)'|_}}</a>
+      <a class="button radius small fa fa-download" ng-click="restoreBackup()" tooltip="{{'Restore bitcoins and all other wallet data from file'|_}}"> {{'Restore a backup'|_}}</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="small-12 columns">
+      <ul class="large-block-grid-5 medium-block-grid-4 small-block-grid-2">
+        <li ng-repeat="identityName in availableIdentities track by $index">
+          <div class="panel radius nomarginbottom">
+            <h4>{{identityName}}</h4>
+            <div class="row collapse">
+              <div class="small-6 columns">
+                <button ng-click="backupIdentity(identityName)" class="nomarginbottom small expand fa fa-upload"> {{'Backup'|_}}</button>
+              </div>
+              <div class="small-6 columns">
+                <button class="small fa fa-trash-o expand alert nomarginbottom" ng-click="deleteIdentity(identityName)"> {{'Delete'|_}}</button>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en" ng-csp>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ArcBit</title>
+  <link rel="stylesheet" href="../vendors/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../vendors/angular/angular-csp.css">
+  <link rel="stylesheet" href="../css/app.css">
+</head>
+<body ng-controller="WalletCtrl" ng-keydown="modals.checkKeyDown($event)">
+<div id="fixed" style="position: fixed"></div>
+<toaster-container toaster-options="{'time-out': 3000}"></toaster-container>
+<div class="modal-ng" ng-cloak ng-if="modals.show">
+  <div class="inherit-height" ng-controller="NgModalCtrl" ng-include="modals.page" tabindex="6">
+  </div>
+</div>
+<div class="container" ng-cloak ng-class="{'animations-disabled': false}">
+  <top-bar scrolltop="false">
+    <ul class="title-area">
+      <li class="name">
+        <h1 class="hide-for-medium"><a ng-click="titleClick()" id="maintitle"><img id="logo" src="../images/logo.svg" width="32" height="32" ng-class="{'busy': rotateLogo}" /> ArcBit</a></h1>
+      </li>
+      <li toggle-top-bar class="menu-icon"><a>{{'Menu'|_}}</a></li>
+    </ul>
+
+    <top-bar-section ng-if="identityName">
+      <ul class="right">
+        <li ng-show="isLoggedIn"><a target="_blank" href="https://itunes.apple.com/app/arcbit-bitcoin-wallet/id999487888"><i class="fa fa-apple"></i> {{'ArcBit iOS'|_}}</a></li>
+
+        <li ng-show="isLoggedIn" title="{{'Settings'|_}}" id="settings" ng-class="{active:isActive('/settings')}"><a href="#settings"><i class="icon-cog"></i> {{'Settings'|_}}</a></li>
+
+        <li ng-show="isLoggedIn" title="{{'Identities'|_}}" ng-class="{active:isActive('/identities')}"><a ng-show="identityName" href="#identities"><i class="icon-profile"></i> {{identityName}}</a></li>
+
+        <li ng-show="isLoggedIn"><a ng-click="logoutWallet()"><i class="icon-exit"></i> {{'Logout'|_}}</a></li>
+
+      </ul>
+      <ul class="left">
+        <li ng-show="isLoggedIn" ng-class="{active:isActive('/wallet')}"><a ng-click="openWallet()"><i class="icon-wallet"></i> {{'Wallet'|_}}</a></li>
+        <li ng-show="isLoggedIn" ng-class="{active:isActive('/contact')}"><a href="#contacts"><i class="icon-contacts"></i> {{'Contacts'|_}}</a></li>
+        <li ng-show="isLoggedIn" ng-class="{active:isActive('/offline_spend')}"><a href="#offline_spend"><i class="fa fa-lock"></i> {{'Brain Wallet'|_}}</a></li>
+      </ul>
+    </top-bar-section>
+  </top-bar>
+
+  <div class="scroller off-canvas-wrap" ng-if="identityName||isActive('/new_wallet')" ng-view>
+  </div>
+</div>
+<script src="../vendors/requirejs/require.js"></script>
+<script src="../js/backend/loader.js"></script>
+<script src="../js/frontend/loader.js"></script>
+</body>
+</html>

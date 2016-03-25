@@ -1,0 +1,49 @@
+{
+  "name": "Arcbit",
+  "version": "1.0.0",
+  "homepage": "http://arcbit.io",
+  "authors": [
+    "Tim <stequald01@gmail.com>",
+    "Caedes <caedes@sindominio.net>",
+    "Sem <sembrestels@riseup.net>"
+  ],
+  "description": "Bitcoin wallet",
+  "main": "js/main.js",
+  "keywords": [
+    "bitcoin",
+    "crypto"
+  ],
+  "license": "AGPLv3",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendors",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "font-awesome": "~4.0.3",
+    "mnemonic.js": "~1.0.0",
+    "sjcl": "~1.0.0",
+    "bitcoinjs-lib": "git://github.com/bitcoinjs/bitcoinjs-lib#master",
+    "angular": "~1.2.13",
+    "ngprogress": "~1.0.4",
+    "AngularJS-Toaster": "~0.4.3",
+    "angular-route": "~1.2.14",
+    "foundation": "~5.3",
+    "angular-foundation": "~0.3.1",
+    "requirejs": "~2.1.11",
+    "requirejs-domready": "~2.0.1",
+    "jsqrcode": "https://github.com/LazarSoft/jsqrcode.git#master",
+    "qrcodejs": "https://github.com/davidshimjs/qrcodejs.git",
+    "identicon": "https://github.com/stewartlord/identicon.js.git",
+    "angular-xeditable": "~0.1.8",
+    "async": "~0.7.0",
+    "big.js": "~2.5.0",
+    "angular-translate": "~2.2.0",
+    "angular-translate-loader-static-files": "~2.2.0",
+    "angular-spinner": "~0.8.0"
+  }
+}

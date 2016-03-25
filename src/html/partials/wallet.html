@@ -1,0 +1,102 @@
+<ng-include ng-show="alert" src="alert?'alerts/'+alert+'.html':alert"></ng-include>
+<div class="inner-wrap pinned">
+
+	<nav class="tab-bar">
+		<div class="pocketnav left-off-canvas-toggle hide-for-large-up">
+			</section>
+			<section class="left" >
+				<span class="fa fa-list" ng-show="selectedPocket==='newPocket'"> {{'Account'|_}}</span>
+				<span class="fa fa-list" ng-show="selectedPocket==='newImportedAccount'"> {{'Imported Account'|_}}</span>
+				<span class="fa fa-list" ng-show="selectedPocket==='newImportedWatchAccount'"> {{'Imported Watch Account'|_}}</span>
+				<span class="fa fa-list" ng-show="selectedPocket==='newImportedAddress'"> {{'Imported Address'|_}}</span>
+				<span class="fa fa-list" ng-show="selectedPocket==='newImportedWatchAddress'"> {{'Imported Watch Address'|_}}</span>
+			</section>
+			<div class="tri"></div>
+		</div>
+		<div ng-click="titleClick()" class="pocketnav">
+			<section class="left" >
+				<span class="fa fa-list"> {{'Accounts'|_}}</span>
+			</section>
+			<div class="tri"></div>
+		</div>
+		<!-- Pocket name and balance -->
+		<section class="middle tab-bar-section" ng-show="pocket.accountName">
+			<h1 class="title lin" ng-click="refreshBalance()" tooltip="{{'Click to refresh balance'|_}}" tooltip-append-to-body="true" ng-if="(pocket.type==='hd'||pocket.type==='ihd'||pocket.type==='iwhd'||pocket.type==='ikey'||pocket.type==='iaddr')">
+				{{pocket.accountName}}
+			</h1>
+			<h1 class="title lin" ng-if="isLoggedIn && (pocket.type==='ahd'||pocket.type==='aihd'||pocket.type==='aiwhd'||pocket.type==='aikey'||pocket.type==='aiaddr')">
+				{{pocket.accountName}}
+			</h1>
+			<div class="lin" ng-if="isLoggedIn && pocket.bitcoinBalance != null" tooltip="{{'Click to display amounts in bitcoins'|_}}" tooltip-append-to-body="true" ng-click="displayBitcoinBalance()">
+				{{pocket.bitcoinBalance | formatProperBitcoin}}
+			</div>
+			<div class="lin" ng-if="isLoggedIn && pocket.fiatBalance != null" tooltip="{{'Click to display amounts in fiat'|_}}" tooltip-append-to-body="true" ng-click="displayFiatBalance()">
+				{{pocket.fiatBalance | formatProperFiat}}
+			</div>
+		</section>
+		<!-- New pocket header -->
+		<section class="middle tab-bar-section" ng-show="!pocket.accountName">
+			<h1 class="title lin">
+				{{subViewTitle}}
+			</h1>
+		</section>
+	</nav>
+
+	<aside class="left-off-canvas-menu">
+		<ng-include src="'wallet/pockets.html'"></ng-include>
+	</aside>
+	<section class="main-section">
+
+		<!-- Content area -->
+		<div ng-hide="selectedPocket==='newPocket'||selectedPocket==='newImportedAccount'||selectedPocket==='newImportedWatchAccount'||selectedPocket==='newImportedAddress'||selectedPocket==='newImportedWatchAddress'">
+
+			<!-- Tabs -->
+			<div class="tabbable" ng-class="{totheright: tabs.previous<tabs.current, totheleft: tabs.previous>tabs.current}">
+				<div class="row topmargin">
+					<div class="small-12 columns">
+						<dl class="tabs">
+							<dd ng-show="tab.isVisible()" ng-class="{active: tab.isActive()}" ng-repeat="tab in tabs.pages">
+								<a ng-click="tab.select()">{{tab.heading|_}}</a>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="tab-scroller ng-animate-disabled" ng-include="tabs.pages[tabs.current].tplUrl">
+				</div>
+			</div>
+		</div>
+
+		<!-- New pocket dialog -->
+		<div ng-if="selectedPocket==='newPocket'" class="large-10 medium-9 columns">
+			<ng-include src="'wallet/new_account.html'">
+			</ng-include>
+		</div>
+
+		<!-- New imported account dialog -->
+		<div ng-if="selectedPocket==='newImportedAccount'" class="large-10 medium-9 columns">
+			<ng-include src="'wallet/new_imported_account.html'">
+			</ng-include>
+		</div>
+
+		<!-- New imported watch account dialog -->
+		<div ng-if="selectedPocket==='newImportedWatchAccount'" class="large-10 medium-9 columns">
+			<ng-include src="'wallet/new_imported_watch_account.html'">
+			</ng-include>
+		</div>
+
+		<!-- New imported address dialog -->
+		<div ng-if="selectedPocket==='newImportedAddress'" class="large-10 medium-9 columns">
+			<ng-include src="'wallet/new_imported_address.html'">
+			</ng-include>
+		</div>
+
+		<!-- New imported watch address dialog -->
+		<div ng-if="selectedPocket==='newImportedWatchAddress'" class="large-10 medium-9 columns">
+			<ng-include src="'wallet/new_imported_watch_address.html'">
+			</ng-include>
+		</div>
+
+	</section>
+
+	<a class="exit-off-canvas"></a>
+</div>

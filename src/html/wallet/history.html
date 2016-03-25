@@ -1,0 +1,73 @@
+<div class="row">
+    <div class="small-12 columns">
+        <div class="row collapse panel radius" ng-show="!historyRows.length">
+            {{'You have no history in this pocket.'|_}}
+        </div>
+        <div class="row collapse panel radius" ng-show="historyRows.length">
+
+            <div>
+                <ul id="row-actions" class="f-dropdown">
+                    <li>
+                        <a ng-click="showTxInWeb(currentRow.hash)" class="fa fa-globe"> {{'Show in Web'|_}}</a>
+                    </li>
+                    <li>
+                        <a ng-click="clipboard.copy(currentRow.hash)" class="fa fa-clipboard"> {{'Copy Transaction ID'|_}}</a>
+                    </li>
+                    <li>
+                        <a ng-click="currentForm.$show()" class="fa fa-pencil-square"> {{'Label Transaction'|_}}</a>
+                    </li>
+                    <li ng-show="currentRow.description">
+                        <a ng-click="deleteTag(currentRow.hash)" class="fa fa-times"> {{'Delete Transaction Label'|_}}</a>
+                    </li>
+                </ul>
+
+
+                <div class="transactions row collapse hide-for-small">
+                    <div class="medium-6 large-8 columns">
+                        {{'Address'|_}}
+                    </div>
+
+                    <div class="medium-3 large-2 columns">
+                        {{'Amount'|_}}
+                    </div>
+                    <div class="medium-3 large-2 columns text-right">
+                        {{'Balance'|_}}
+                    </div>
+                </div>
+                <div class="row collapse address-row transactions"  ng-repeat="row in historyRows track by $index">
+                    <div class="medium-4 columns large-6 ellipsis">
+                        <a ng-click="setCurrentRow(row, rowBtnForm)" class="fa button square lefted fa-chevron-circle-down" dropdown-toggle="#row-actions"></a>
+
+                <span editable-text="rowEdit.description" e-form="rowBtnForm" buttons="no" onaftersave="saveRowLabel()">
+                <span ng-show="!row.description">
+                {{row.address}}
+                </span>
+                <span tooltip="{{row.address}}" tooltip-append-to-body="true" ng-show="row.description">
+                {{row.description}}
+                </span>
+                </span>
+
+                    </div>
+                    <div class="small-4 medium-2 columns ellipsis">
+                        <span>{{row.timeText}}</span>
+                    </div>
+
+                    <div class="small-4 medium-3 large-2 columns" ng-if="isLoggedIn">
+                        <i ng-class="{'fa-sign-in': row.partial>0 , 'fa-sign-out': row.amount<0, 'red': row.amount<0, 'green': row.amount>0}" class="fa transaction-icon"></i>
+                        {{row.amount | formatProperCurrency:row.amountType:false}}
+                    </div>
+                    <div class="hide-for-small medium-3 large-2 columns text-right" ng-if="isLoggedIn">
+                        {{row.balanceAsOfTx | formatProperCurrency:1:false}}
+                    </div>
+                </div>
+            </div>
+            <div class="pagination-centered topmargin" ng-show="nPages>1">
+                <ul class="pagination">
+                    <li ng-click="setPage(page-1, true)" ng-class="{unavailable:page==0}" class="arrow unavailable"><a href="">&laquo;</a></li>
+                    <li ng-click="setPage($index, true)" ng-repeat="n in range(nPages) track by $index" ng-class="{current: page==$index}"><a>{{$index+1}}</a></li>
+                    <li ng-click="setPage(page+1, true)" ng-class="{unavailable:page==nPages-1}" class="arrow"><a href="">&raquo;</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

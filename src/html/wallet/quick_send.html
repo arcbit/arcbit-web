@@ -1,0 +1,67 @@
+<div ng-controller="WalletSendCtrl" class="panel radius">
+  <form name="quickSendForm" ng-submit="reviewPayment()" novalidate>
+    <div class="row collapse" ng-repeat="field in quicksend.fields">
+      <div class="row collapse topmargin">
+        <h5>{{'To'|_}}</h5>
+        <div class="row collapse text-right">
+          <a class="fa fa-minus-square" ng-show="$index!=0"  ng-click="removeRecipient($index)" tooltip="{{'Remove recipient'|_}}"></a>
+        </div>
+        <div class="small-10 columns">
+          <input type="text" ng-change="saveToAddress(field.address, $index)" ng-model="field.address" required btc-address placeholder="{{'Bitcoin address...'|_}}" class="nomarginbottom"/>
+        </div>
+        <div class="small-1 columns">
+          <a href="" tooltip-append-to-body="true" tooltip="{{'Select from contacts'|_}}" ng-click="pickContact(field, $index)" class="fa button square prefix fa-users"></a>
+        </div>
+        <div class="small-1 columns">
+          <a href="" tooltip-append-to-body="true" tooltip="{{'Scan QR code'|_}}" ng-click="getAddressFromQRCode(field, $index)" class="fa button square prefix fa-qrcode"></a>
+        </div>
+      </div>
+      <div class="row collapse">
+        <h5>{{'Amount'|_}}</h5>
+        <div class="small-10 columns">
+          <input type="text" ng-change="updateFiatAmount(field, $index)" ng-model="field.bitcoinAmount" required btc-address placeholder="{{'Bitcoin amount'|_}}..." class="nomarginbottom" />
+        </div>
+        <div class="small-2 columns">
+          <a class="button postfix nomarginbottom">{{quicksend.bitcoinCode}}</a>
+        </div>
+      </div>
+      <div class="row collapse text-right">
+        <a class="fa fa-sun-o"  ng-click="useAllFunds(field, $index)" tooltip="{{'Use All Funds'|_}}"></a>
+      </div>
+      <div class="row collapse">
+        <div class="small-10 columns">
+          <input type="text" ng-change="updateBitcoinAmount(field, $index)" ng-model="field.fiatAmount" required btc-address placeholder="{{'Fiat amount'|_}}..." class="nomarginbottom" />
+        </div>
+        <div class="small-2 columns">
+          <a class="button postfix nomarginbottom">{{quicksend.fiatCode}}</a>
+        </div>
+      </div>
+    </div>
+    <div class="row collapse text-right">
+      <a class="fa fa-plus-square"  ng-click="addRecipient()" tooltip="{{'Add recipient'|_}}"></a>
+    </div>
+    <div class="row collapse topmargin">
+      <a class="button postfix nomarginbottom" ng-click="reviewPayment()">{{'Review Payment'|_}}</a>
+    </div>
+    <div class="row collapse topmargin">
+      <a class="fa fa-minus-square" ng-click="quicksend.showFee=!quicksend.showFee" tooltip="{{'Change default transaction fee'|_}}"></a>
+    </div>
+    <div class="row collapse" ng-show="quicksend.showFee">
+      <h5>{{'Fee Amount'|_}}</h5>
+      <div class="small-10 columns">
+        <input type="text" ng-change="updateFiatFeeAmount()" ng-model="quicksend.bitcoinFeeAmount" required btc-address placeholder="{{'Bitcoin fee amount'|_}}..." class="nomarginbottom" />
+      </div>
+      <div class="small-2 columns">
+        <a class="button postfix nomarginbottom">{{quicksend.bitcoinCode}}</a>
+      </div>
+    </div>
+    <div class="row collapse topmargin" ng-show="quicksend.showFee">
+      <div class="small-10 columns">
+        <input type="text" ng-change="updateBitcoinFeeAmount()" ng-model="quicksend.fiatFeeAmount" required btc-address placeholder="{{'Fiat fee amount'|_}}..." class="nomarginbottom" />
+      </div>
+      <div class="small-2 columns">
+        <a class="button postfix nomarginbottom">{{quicksend.fiatCode}}</a>
+      </div>
+    </div>
+  </form>
+</div>

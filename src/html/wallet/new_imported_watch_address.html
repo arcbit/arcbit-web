@@ -1,0 +1,27 @@
+<div class="row collapse">
+    <div class="large-18 large-centered columns cardflipper">
+        <div class="wizard" ng-controller="ImportedWatchAddressCreateCtrl">
+            <form name="newPocketForm">
+
+                <div class="row">
+                    <div class="small-12 columns">
+                        <div class="row collapse">
+                            <div class="medium-10 columns">
+                                <input type="text" maxlength="111" auto-focus ng-model="newPocket.name" placeholder="{{'Bitcoin address...'|_}}" />
+                            </div>
+                            <div class="small-6 medium-2 columns"><a href="" ng-click="getAddressFromQRCode(newContact)" class="button radius postfix fa fa-qrcode">{{'Scan QR'|_}}</a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-right">
+                    <div class="small-12 columns">
+                        <input type="submit" class="button small radius" value="{{'Import'|_}}" ng-click="createImportedWatchAddress()"/>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+</div>

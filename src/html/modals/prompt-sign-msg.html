@@ -1,0 +1,29 @@
+<div class="large-8 large-centered columns panel radius topmargin">
+    <form ng-submit="ok(vars)">
+        <h3>{{'Sign message'|_}}</h3>
+        <label>{{'Use this tool to sign a message which proves that you own an address. You can verify messages in the tools sections, which is found in settings.'|_}}</label>
+        <div ng-show="vars.isInputPrivateKey">
+            <label class="topmargin">{{'Private key'|_}}:</label>
+            <input ng-model="vars.key" type="text" placeholder="{{'Private key'|_}}..." ng-change="vars.inputPrivateKeyChangeCallback ? vars.inputPrivateKeyChangeCallback(vars) : null" />
+            <label class="topmargin">{{'Address'|_}}:</label>
+            <input ng-model="vars.addr" type="text" readonly/>
+        </div>
+        <div ng-show="!vars.isInputPrivateKey">
+            <label class="topmargin">{{'Address'|_}}:</label>
+            <label>{{vars.addr}}</label>
+        </div>
+        <label class="topmargin">{{'Message'|_}}:</label>
+        <textarea auto-focus ng-model="vars.msg" rows="4" placeholder="{{'Message'|_}}..."></textarea>
+        <div ng-show="vars.sig">
+            <label>{{'Signature:'|_}}</label>
+            <textarea ng-model="vars.sig" rows="2" readonly></textarea>
+        </div>
+        <div class="text-right">
+            <a class="button small fa fa-pencil radius glow" ng-click="cancel('dont_dismiss')"> {{'Sign'|_}}</a>
+            <a class="button alert small radius fa fa-times" ng-click="cancel()"> {{'Cancel'|_}}</a>
+        </div>
+    </form>
+</div>
+<div class="qractions">
+    <a class="fa fa-times button" ng-click="cancel()"></a>
+</div>

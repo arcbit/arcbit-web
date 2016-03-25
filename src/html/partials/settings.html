@@ -1,0 +1,112 @@
+<div class="row">
+  <div class="small-12 columns"><h3>{{'Settings'|_}}</h3></div>
+</div>
+<div class="row">
+  <div class="large-4 columns">
+    <div class="panel">
+      <h5>{{'Security'|_}}</h5>
+      <div class="text-left">
+        <a ng-show="!advancedModeEnabled" class="fa fa-question" tooltip="{{'The seed alone can recover all your wallet account\'s bitcoins, so make sure to back it up and keep it safe.'|_}}"></a>
+        <a ng-show="advancedModeEnabled" class="fa fa-question" tooltip="{{'The seed alone can recover all your wallet account\'s bitcoins (excluding imported accounts and addresses), so make sure to back it up and keep it safe.'|_}}"></a>
+      </div>
+      <button class="expand ng-animate-disabled" ng-show="!seedTool&&!passTool" ng-click="showSeed()">{{'Show seed'|_}}</button>
+      <div ng-show="seedTool">
+        <input type="text" ng-model="yourSeedWords" ng-show="yourSeed && !seedError">
+        <input ng-show="advancedModeEnabled" type="text" ng-model="yourSeedHex" ng-show="yourSeed && !seedError">
+        <div ng-show="seedError">
+          {{'Incorrect password'|_}}
+        </div>
+        <button class="small alert radius" ng-click="seedTool=false;">{{'Cancel'|_}}</button>
+      </div>
+      <button class="expand ng-animate-disabled" ng-show="!passTool&&!seedTool" ng-click="showPasswordChanged()">{{'Change password'|_}}</button>
+      <form ng-show="passTool" name="passwordForm" ng-submit="passwordChanged()" novalidate>
+        <h5>{{'Change your password'|_}}</h5>
+        <label>{{'Enter your current password'|_}}</label>
+        <input type="password" class="password" required ng-model="oldPassword">
+        <label>{{'Enter your new password'|_}}</label>
+        <input type="password" class="password" required ng-model="newPassword">
+        <label>{{'Repeat new password'|_}}</label>
+        <input type="password" class="password" required ng-model="newPasswordRepeat">
+        <div ng-show="newPassword !== newPasswordRepeat">{{'Password doesn\'t match'|_}}</div>
+        <button type="submit" class="small radius">{{'Change password'|_}}</button>
+        <a class="small radius alert button" ng-click="passTool=false;">{{'Cancel'|_}}</a>
+      </form>
+      <input id="checkbox-always-encrypt" ng-model="alwaysEncrypt" type="checkbox" ng-change="alwaysEncryptChanged()"><label for="checkbox-always-encrypt" tooltip="{{'Enabling this will always save your wallet in encrypted format. This means that your login password is required after you close your browser or the tab. By default your login password is your seed. It is recommended that this feature be enabled if you hold significant amount of Bitcoins in this wallet.'}}">{{'Always Encrypt'|_}}</label><br>
+
+    </div>
+    <div class="panel">
+      <h5>{{'Identity'|_}}</h5>
+      <a class="button fa fa-flask postfix" ng-click="identitySettings=!identitySettings">{{'Change identity name'|_}}</a>
+      <div class="row" ng-show="identitySettings">
+        <form name="identityNameForm" ng-submit="setIdentityName(identityNameForm.name)">
+          <div class="columns small-6">
+            <input type="text" placeholder="{{'New name...'|_}}" ng-model="identityNameForm.name" value="{{currentIdentity}}" required>
+          </div>
+          <div class="columns small-6">
+            <button type="submit">{{'Change'|_}}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="large-5 columns">
+    <div class="panel">
+      <h5>{{'Interface'|_}}</h5>
+      <input id="checkbox-animations" ng-model="enableAnimations" type="checkbox" ng-change="animationsChanged()"><label for="checkbox-animations">{{'Enable animations'|_}}</label><br>
+      <input id="checkbox-advanced-mode" ng-model="advancedModeEnabled" type="checkbox" ng-change="advancedModeChanged()"><label for="checkbox-advanced-mode" tooltip="{{'Enable to expose features including ability to import private keys (including bip38 encrypted keys), watch only addresses, xpubs, xprivs and the ability to see all account addresses'|_}}">{{'Enable advanced mode'|_}}</label><br>
+      <h5>{{'Language'|_}}</h5>
+      <select id="select-language" ng-model="selectedLanguage" ng-change="languageChanged()" ng-options="language.code as language.name for language in languages"></select>
+    </div>
+
+    <div class="panel" ng-show="advancedModeEnabled">
+      <h5>{{'Block explorer service'|_}}</h5>
+      <input type="radio" name="blockexplorerapi" value="blockchain.info" id="blockchain-info-radio" ng-change="blockExplorerAPIChanged()" ng-model="selectedBlockExplorerAPI"><label for="blockchain-info-radio">blockchain.info</label>
+      <input type="radio" name="blockexplorerapi" value="insight" id="insight-radio" ng-change="blockExplorerAPIChanged()" ng-model="selectedBlockExplorerAPI"><label for="insight-radio">Bitpay's Insight</label>
+
+      <div class="row collapse" ng-show="selectedBlockExplorerAPI == 'insight'">
+        <div class="small-8 columns">
+          <input ng-model="newAPIURL" type="text" placeholder="{{'Enter custom Insight URL'|_}}" autofocus />
+        </div>
+        <div class="small-4 columns">
+          <a ng-disabled="!newAPIURL" ng-click="addBlockExplorerURL()" class="fa button postfix radius fa-plus">{{'Add'|_}}</a>
+        </div>
+      </div>
+      <div class="row" ng-show="selectedBlockExplorerAPI == 'insight'">
+        <div class="small-12 columns">
+          <select class="select-list" size="50" ng-model="selectedBlockExplorerURLIdx">
+            <option ng-repeat="blockExplorerURL in blockExplorerURLs track by $index" value="{{$index}}" ng-click="selectedBlockExplorerURLIdx=$index" ng-selected="selectedBlockExplorerURLIdx==$index">{{blockExplorerURL}}</option>
+          </select>
+          <div class="row">
+            <div class="small-9 columns">
+              <a ng-click="blockExplorerURLChanged()" class="button small radius expand">{{'Use selected URL'|_}}</a>
+            </div>
+            <div class="small-3 columns">
+              <a ng-click="removeBlockExplorerAPI()" class="button small alert radius expand">{{'Delete'|_}}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="large-3 columns">
+    <div class="panel">
+      <h5>{{'Base unit'|_}}</h5>
+      <input type="radio" name="baseunit" value="BTC" id="btc-radio" ng-change="currencyChanged()" ng-model="selectedCurrency"><label for="btc-radio">BTC</label>
+      <input type="radio" name="baseunit" value="mBTC" id="mbtc-radio" ng-change="currencyChanged()" ng-model="selectedCurrency"><label for="mbtc-radio">mBTC</label>
+      <input type="radio" name="baseunit" value="bits" id="bits-radio" ng-change="currencyChanged()" ng-model="selectedCurrency"><label for="bits-radio">bits</label>
+      <h5>{{'Default fee'|_}}</h5>
+      <input ng-model="defaultFee" ng-change="defaultFeeChanged()" type="text"/>
+    </div>
+    <div class="panel">
+      <h5>{{'Local currency'|_}}</h5>
+      <select ng-model="selectedFiat" ng-options="currency.code as currency.name for currency in fiatCurrencies" ng-change="fiatCurrencyChanged()">
+      </select>
+    </div>
+    <div class="panel">
+      <h5>{{'Email Support'|_}}</h5>
+      <a href="mailto:support@arcbit.zendesk.com?Subject=ArcBit%20Web%20Wallet%20Support">support@arcbit.zendesk.com</a>
+    </div>
+    <a class="button fa fa-gears postfix" ng-show="advancedModeEnabled" href="#tools">{{'Tools'|_}}</a>
+  </div>
+</div>

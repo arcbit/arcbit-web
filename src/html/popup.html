@@ -1,0 +1,43 @@
+<!doctype html>
+<html class="popup" ng-csp>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arcbit</title>
+  <link rel="stylesheet" href="../vendors/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../vendors/angular/angular-csp.css">
+  <link rel="stylesheet" href="../css/app.css">
+</head>
+<body class="popupbody" ng-controller="PopupCtrl" ng-keydown="modals.checkKeyDown($event)">
+<div class="popupcontainer">
+  <!-- modals -->
+  <div class="modal-ng" ng-cloak ng-if="modals.show">
+    <div ng-controller="NgModalCtrl" ng-include="modals.page" tabindex="0">
+    </div>
+  </div>
+
+  <!-- Identity selection / Creation -->
+  <div class="row">
+    <div class="small-12 columns" ng-show="identities.length" ng-cloak>
+      <a ng-click="forms.identityDropdown=!forms.identityDropdown" class="fa nomarginbottom button postfix fa-chevron-circle-down">{{currentIdentity}}</a>
+      <div ng-show="forms.identityDropdown">
+        <div ng-click="loadIdentity(anIdentity.id)" ng-repeat="anIdentity in identities" class="address-row identitylist">
+          {{anIdentity.id}}
+        </div>
+      </div>
+      <a ng-show="!forms.identityDropdown" href="index.html#wallet" target="_blank" class="button topmargin small radius expand">
+        {{'Open wallet'|_}}
+      </a>
+    </div>
+    <div ng-show="!identities.length" ng-cloak class="small-12 columns">
+        <a href="index.html#wallet" target="_blank" class="button small radius expand">
+          {{'Create wallet'|_}}
+        </a>
+    </div>
+  </div>
+</div>
+<script src="../vendors/requirejs/require.js"></script>
+<script src="../js/backend/loader.js"></script>
+<script src="../js/frontend/popup/loader.js"></script>
+</body>
+</html>

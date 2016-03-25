@@ -1,0 +1,32 @@
+<div class="row collapse">
+    <div class="large-18 large-centered columns cardflipper">
+        <div class="wizard" ng-controller="ImportedWatchAccountCreateCtrl">
+            <form name="newPocketForm">
+                <div class="row">
+                    <div class="small-12 columns">
+                        <h6>{{'You can spend from a watch only account by importing the account private key before you spend, or you can use the ArcBit brain wallet tool to make a transaction without ever having your private keys touch a internet facing computer.'|_}}</h6>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="small-12 columns">
+                        <div class="row collapse">
+                            <div class="medium-10 columns">
+                                <input type="text" maxlength="111" auto-focus ng-model="newPocket.name" placeholder="xpub..." />
+                            </div>
+                            <div class="small-6 medium-2 columns"><a href="" ng-click="getAddressFromQRCode(newContact)" class="button radius postfix fa fa-qrcode">{{'Scan QR'|_}}</a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-right">
+                    <div class="small-12 columns">
+                        <input type="submit" class="button small radius" value="{{'Import'|_}}" ng-click="createImportedWatchAccount()"/>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+</div>

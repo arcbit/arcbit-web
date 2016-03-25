@@ -1,0 +1,33 @@
+<div class="large-8 large-centered columns panel radius topmargin">
+    <form ng-submit="ok()">
+        <h3>{{'Transaction Summary'|_}}</h3>
+        <h6>{{'To'|_}}:</h6>
+        <div ng-show="vars.tos.length == 1">
+            <h8 class="toast-message">{{vars.tos[0].address}}</h8>
+            <h6>{{'Amount'|_}}:</h6>
+            <h8>{{vars.tos[0].bitcoinAmount}} {{vars.bitcoinCode}} / {{vars.tos[0].fiatAmount}} {{vars.currencyCode}}</h8>
+        </div>
+        <div ng-show="vars.tos.length > 1">
+            <div ng-repeat="to in vars.tos">
+                <h8 class="toast-message">{{to.address}}</h8>
+                <p><font size="3">{{to.bitcoinAmount}} {{vars.bitcoinCode}} / {{to.fiatAmount}} {{vars.currencyCode}}</font></p>
+            </div>
+        </div>
+        <h6>{{'Fee Amount'|_}}:</h6>
+        <h8>{{vars.feeAmount}} {{vars.bitcoinCode}}</h8>
+        <div class="row collapse topmargin">
+            <a class="fa fa-minus-square" ng-show="vars.showTxHexButton" ng-click="vars.showTxHex=!vars.showTxHex;cancel('dont_dismiss')" tooltip="{{'Show Transaction Hex'|_}}"></a>
+        </div>
+        <div class="row collapse" ng-show="vars.showTxHex">
+            <h6>{{'Transaction Hex'|_}}:</h6>
+            <h8 class="toast-message">{{vars.txHex}}</h8>
+        </div>
+        <div class="text-right">
+            <button class="button small fa fa-check radius glow" type="submit"> {{'Send'|_}}</button>
+            <a class="button alert small radius fa fa-times" ng-click="cancel()"> {{'Cancel'|_}}</a>
+        </div>
+    </form>
+</div>
+<div class="qractions">
+    <a class="fa fa-times button" ng-click="cancel()"></a>
+</div>

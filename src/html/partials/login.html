@@ -1,0 +1,15 @@
+<div class="row collapse" ng-controller="loginCtrl">
+    <div class="wizard text-center">
+        <img src="../images/logo.svg" style="width:35%; height:35%" />
+        <form>
+
+            <div class="row topmargin">
+                <div><input type="text" ng-model="identityName" maxlength="12" ng-required="true" readonly /></div>
+                <div><input type="password" ng-model="loginPassword" placeholder="{{'Password'|_}}" auto-focus /></div>
+            </div>
+            <div class="row">
+                <button class="row collapse" ng-click="login()">{{'Login'|_}}</button>
+            </div>
+        </form>
+    </div>
+</div>

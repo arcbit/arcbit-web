@@ -1,0 +1,75 @@
+<div class="row" ng-controller="AddressesCtrl">
+	<div class="small-12 columns" ng-show="pocket.mainAddress">
+		<div class="row collapse panel radius">
+			<div class="medium-2 columns">
+				<span class="prefix radius">{{(pocket.type == 'hd'||pocket.type == 'ihd'||pocket.type == 'ahd'||pocket.type == 'aihd') ? ('Reusable Address'|_) : ('Address'|_)}}</span>
+			</div>
+			<div class="medium-6 columns">
+				<input type="text" class="nomarginbottom" disabled="true" value="{{pocket.mainAddress}}" />
+			</div>
+			<div class="medium-2 columns">
+				<button ng-click="clipboard.copy(pocket.mainAddress)" class="nomarginbottom button postfix fa fa-clipboard">{{'Copy'|_}}</button>
+			</div>
+			<div class="medium-2 columns">
+				<button ng-click="modals.showBtcQr(pocket.mainAddress)" class="nomarginbottom button postfix radius fa fa-qrcode">{{'Show QR'|_}}</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row topmargin" ng-controller="AddressesCtrl">
+	<div class="small-12 columns" ng-show="pocket.type == 'hd'||pocket.type == 'ihd'||pocket.type == 'iwhd'||pocket.type == 'ahd'||pocket.type == 'aihd'||pocket.type == 'aiwhd'">
+		<div class="panel radius">
+			<dl class="sub-nav">
+				<dt>{{'Filter'|_}}:</dt>
+				<dd ng-class="{active: 'activeMain'===addrFilter}"><a ng-click="setAddressFilter('activeMain')">{{'Active Main'|_}}</a></dd>
+				<dd ng-class="{active: 'activeChange'===addrFilter}"><a ng-click="setAddressFilter('activeChange')">{{'Active Change'|_}}</a></dd>
+				<dd ng-class="{active: 'stealthPayment'===addrFilter}"><a ng-click="setAddressFilter('stealthPayment')">{{'Stealth Payment'|_}}</a></dd>
+				<dd ng-class="{active: 'archivedMain'===addrFilter}"><a ng-click="setAddressFilter('archivedMain')">{{'Archived Main'|_}}</a></dd>
+				<dd ng-class="{active: 'archivedChange'===addrFilter}"><a ng-click="setAddressFilter('archivedChange')">{{'Archived Change'|_}}</a></dd>
+			</dl>
+			<ul id="address-actions" class="f-dropdown">
+				<li>
+					<a ng-click="clipboard.copy(currentAddress.address)" class="fa fa-clipboard"> {{'Copy address'|_}}</a>
+				</li>
+				<li>
+					<a ng-click="modals.showBtcQr(currentAddress.address)" class="fa fa-qrcode"> {{'Show QR code'|_}}</a>
+				</li>
+				<li>
+					<a ng-show="currentAddress.key" ng-click="showPrivateKeyQRCode(currentAddress.address)" class="fa fa-qrcode"> {{'Show Private Key'|_}}</a>
+				</li>
+				<li>
+					<a ng-click="showAddressInWeb(currentAddress.address)" class="fa fa-globe"> {{'Show in Web'|_}}</a>
+				</li>
+				<li>
+					<a ng-click="signMessage(currentAddress.address)" class="fa fa-pencil"> {{'Sign message'|_}}</a>
+				</li>
+			</ul>
+
+			<div class="row collapse address-row"  ng-repeat="address in addresses track by $index">
+				<div class="small-4 columns ellipsis">
+					<a ng-click="setCurrentAddress(address)" dropdown-toggle="#address-actions" class="fa button square lefted fa-chevron-circle-down"></a>
+		                <span class="address-label" ng-show="true">
+		                    ID: {{address.idx}}
+		                </span>
+				</div>
+
+				<div class="small-6 columns ellipsis" ng-click="clipboard.copy(address.address)">
+					{{address.address}}
+				</div>
+				<div class="small-2 columns text-right" ng-if="isLoggedIn && address" ng-show="(addrFilter=='activeMain'||addrFilter=='activeChange'||addrFilter=='stealthPayment') && (pocket.type == 'hd'||pocket.type == 'ihd'||pocket.type == 'iwhd'||pocket.type == 'ikey'||pocket.type == 'iaddr')">
+					{{address.balance | formatProperCurrency:1:false}}
+				</div>
+			</div>
+			<div ng-if="nPages>1" class="pagination-centered topmargin">
+				<ul class="pagination">
+					<li ng-click="setPage(page-1)" ng-class="{unavailable:page==0}" class="arrow unavailable"><a href="">&laquo;</a></li>
+					<li ng-click="setPage($index)" ng-repeat="n in range(nPages) track by $index" ng-class="{current: page==$index}"><a>{{$index+1}}</a></li>
+					<li ng-click="setPage(page+1)" ng-class="{unavailable:page==nPages-1}" class="arrow"><a href="">&raquo;</a></li>
+				</ul>
+			</div>
+			<div class="text-left" ng-show="(pocket.type==='iwhd'||pocket.type==='aiwhd') && addrFilter=='stealthPayment'">
+				<a class="fa fa-question" tooltip="{{'Watch only accounts cannot see reusable address payments'|_}}"></a>
+			</div>
+		</div>
+	</div>
+</div>

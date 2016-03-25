@@ -1,0 +1,34 @@
+{
+  "name": "socket-io-client",
+  "version": "1.4.3",
+  "description": "Realtime application framework (client) for Bower",
+  "keywords": [
+    "socket-io",
+    "socket",
+    "io",
+    "realtime"
+  ],
+  "homepage": "https://github.com/Alexandre-io/socket.io-client.git",
+  "bugs": "https://github.com/Alexandre-io/socket.io-client/issues",
+  "author": {
+    "name": "Alexandre L.",
+    "email": "",
+    "url": "https://github.com/Alexandre-io"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Alexandre-io/socket.io-client.git"
+  },
+  "main": "socket.io.js",
+  "ignore": [
+    ".*",
+    "node_modules",
+    "bower_components",
+    "demo*",
+    "src*",
+    "Gruntfile.js",
+    "karma.conf.js",
+    "package.json"
+  ],
+  "license": "MIT"
+}

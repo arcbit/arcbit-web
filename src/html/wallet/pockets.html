@@ -1,0 +1,68 @@
+<ul class="off-canvas-list">
+      <li class="pocketpinned show-for-large-up">
+            <label>{{'Accounts'|_}}</label>
+            <a class="fa fa-arrow-left" ng-click="titleClick()"></a>
+      </li>
+      <li ng-class="{active: true}"><a></a></li>
+      <li><label>{{'Accounts'|_}} <a class="cornerbutton right" ng-class="{active: selectedPocket==='newPocket'}" ng-click="newPocket()"> + </a></label></li>
+      <li ng-show="accounts" ng-class="{active: 'hd:'+$index===pocket.type+':'+pocket.lastIndex}" ng-repeat="account in accounts track by $index">
+            <a href="" ng-click="selectPocket(account.getAccountName(), $index)">{{account.getAccountName()}}</a>
+      </li>
+
+      <li class="divider"></li>
+      <li ng-show="advancedModeEnabled"><label>{{'Imported Accounts'|_}} <a class="cornerbutton right" ng-class="{active: selectedPocket==='newImportedAccount'}" ng-click="newImportedAccount()"> + </a></label></li>
+      <li ng-show="advancedModeEnabled" ng-class="{active: 'ihd:'+$index===selectedPocket}" ng-click="selectImportedAccount(importedAccount.getAccountName(), $index)" ng-repeat="importedAccount in importedAccounts track by $index"><a href="">{{importedAccount.getAccountName()}}</a></li>
+      <li>
+      </li>
+
+      <li class="divider"></li>
+      <li ng-show="advancedModeEnabled"><label>{{'Imported Watch Accounts'|_}} <a class="cornerbutton right" ng-class="{active: selectedPocket==='newImportedWatchAccount'}" ng-click="newImportedWatchAccount()"> + </a></label></li>
+      <li ng-show="advancedModeEnabled" ng-class="{active: 'iwhd:'+$index===selectedPocket}" ng-click="selectImportedWatchAccount(importedWatchAccount.getAccountName(), $index)" ng-repeat="importedWatchAccount in importedWatchAccounts track by $index"><a href="">{{importedWatchAccount.getAccountName()}}</a></li>
+      <li>
+      </li>
+
+      <li class="divider"></li>
+      <li ng-show="advancedModeEnabled"><label>{{'Imported Addresses'|_}} <a class="cornerbutton right" ng-class="{active: selectedPocket==='newImportedAddress'}" ng-click="newImportedAddress()"> + </a></label></li>
+      <li ng-show="advancedModeEnabled" ng-class="{active: 'ikey:'+$index===selectedPocket}" ng-click="selectImportedAddress(importedAddress.getLabel(), $index)" ng-repeat="importedAddress in importedAddresses track by $index"><a href="">{{importedAddress.getLabel()}}</a></li>
+      <li>
+      </li>
+
+      <li class="divider"></li>
+      <li ng-show="advancedModeEnabled"><label>{{'Imported Watch Addresses'|_}} <a class="cornerbutton right" ng-class="{active: selectedPocket==='newImportedWatchAddress'}" ng-click="newImportedWatchAddress()"> + </a></label></li>
+      <li ng-show="advancedModeEnabled" ng-class="{active: 'iaddr:'+$index===selectedPocket}" ng-click="selectImportedWatchAddress(importedWatchAddress.getLabel(), $index)" ng-repeat="importedWatchAddress in importedWatchAddresses track by $index"><a href="">{{importedWatchAddress.getLabel()}}</a></li>
+      <li>
+      </li>
+
+      <li class="divider"></li>
+      <li ng-show="archivedAccounts.length > 0"><label>{{'Archived Accounts'|_}}</label></li>
+      <li ng-class="{active: 'ahd:'+$index===pocket.type+':'+pocket.lastIndex}" ng-repeat="account in archivedAccounts track by $index">
+            <a href="" ng-click="selectArchivedAccount(account.getAccountName(), $index)">{{account.getAccountName() | pocket}}</a>
+      <li>
+      </li>
+
+      <li class="divider"></li>
+      <li ng-show="advancedModeEnabled && archivedImportedAccounts.length > 0"><label>{{'Archived Imported Accounts'|_}}</label></li>
+      <li ng-show="advancedModeEnabled" ng-class="{active: 'aihd:'+$index===pocket.type+':'+pocket.lastIndex}" ng-repeat="account in archivedImportedAccounts track by $index">
+            <a href="" ng-click="selectArchivedImportedAccount(account.getAccountName(), $index)">{{account.getAccountName() | pocket}}</a>
+      <li>
+      </li>
+
+      <li class="divider"></li>
+      <li ng-show="advancedModeEnabled && archivedImportedWatchAccounts.length > 0"><label>{{'Archived Imported Watch Accounts'|_}}</label></li>
+      <li ng-show="advancedModeEnabled" ng-class="{active: 'aiwhd:'+$index===pocket.type+':'+pocket.lastIndex}" ng-repeat="account in archivedImportedWatchAccounts track by $index">
+            <a href="" ng-click="selectArchivedImportedWatchAccount(account.getAccountName(), $index)">{{account.getAccountName() | pocket}}</a>
+      <li>
+      </li>
+
+      <li class="divider"></li>
+      <li ng-show="advancedModeEnabled && archivedImportedAddresses.length > 0"><label>{{'Archived Imported Addresses'|_}}</label></li>
+      <li ng-show="advancedModeEnabled" ng-class="{active: 'aikey:'+$index===selectedPocket}" ng-click="selectArchivedImportedAddress(importedAddress.getLabel(), $index)" ng-repeat="importedAddress in archivedImportedAddresses track by $index"><a href="">{{importedAddress.getLabel()}}</a></li>
+      <li>
+      </li>
+
+      <li class="divider"></li>
+      <li ng-show="advancedModeEnabled && archivedImportedWatchAddresses.length > 0"><label>{{'Archived Imported Watch Addresses'|_}}</label></li>
+      <li ng-show="advancedModeEnabled" ng-class="{active: 'aiaddr:'+$index===selectedPocket}" ng-click="selectArchivedImportedWatchAddress(importedWatchAddress.getLabel(), $index)" ng-repeat="importedWatchAddress in archivedImportedWatchAddresses track by $index"><a href="">{{importedWatchAddress.getLabel()}}</a></li>
+      <li>
+      </li>
+</ul>

@@ -1,0 +1,62 @@
+<div class="row" ng-controller="AccountActionCtrl">
+	<div class="medium-4 columns">
+		<div class="panel radius">
+			<h5>{{'Account'|_}}</h5>
+
+			<div class="row collapse">
+				<div class="medium-12 columns">
+					<form name="pocketRenameForm" ng-show="renamingPocket" ng-submit="finalizeRenamePocket(pocket, forms.pocketName)">
+						<input type="text" autofocus ng-model="forms.pocketName"></input><button class="button square righted fa fa-check" type="submit"></button>
+					</form>
+
+					<a href="" ng-click="renamePocket(pocket)" class="fa button postfix fa-terminal">{{'Rename'|_}}</a>
+					<a class="fa button alert postfix fa-folder" ng-click="toggleArchiveAccount(pocket)">{{(pocket.type == 'hd'||pocket.type == 'ihd'||pocket.type == 'iwhd'||pocket.type == 'ikey'||pocket.type == 'iaddr') ? ('Archive'|_) : ('Unarchive'|_)}}</a>
+					<a class="fa button alert postfix fa-times" ng-show="pocket.type == 'aihd'||pocket.type == 'aiwhd'||pocket.type == 'aikey'||pocket.type == 'aiaddr'" ng-click="deleteAccount(pocket)">{{'Delete'|_}}</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="medium-4 columns" ng-show="advancedModeEnabled">
+		<div class="panel radius">
+			<h5>{{'QR Codes'|_}}</h5>
+
+			<div class="row collapse">
+				<div class="medium-12 columns">
+					<a href="" ng-show="pocket.xpub" ng-click="modals.showBtcQr(pocket.xpub)" class="fa button postfix fa-qrcode">{{'Account Public Key'|_}}</a>
+					<a href="" ng-show="pocket.xprv" ng-click="modals.showBtcQr(pocket.xprv)" class="fa button postfix fa-qrcode">{{'Account Private Key'|_}}</a>
+					<a href="" ng-show="pocket.addr" ng-click="modals.showBtcQr(pocket.addr)" class="fa button postfix fa-qrcode">{{'Address'|_}}</a>
+					<a href="" ng-show="pocket.key" ng-click="modals.showBtcQr(pocket.key)" class="fa button postfix fa-qrcode">{{'Private Key'|_}}</a>
+					<a class="fa button alert postfix fa-times" ng-show="(pocket.type == 'iwhd'||pocket.type == 'aiwhd') && pocket.hasTmpAccountKey" ng-click="clearAccountPrivateKey(pocket)">{{'Clear Account Private Key'|_}}</a>
+					<a class="fa button alert postfix fa-times" ng-show="(pocket.type == 'ikey'||pocket.type == 'aikey'||pocket.type == 'iaddr'||pocket.type == 'aiaddr') && pocket.hasTmpKey" ng-click="clearPrivateKey(pocket)">{{'Clear Private Key'|_}}</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="medium-4 columns" ng-show="advancedModeEnabled && (pocket.type == 'hd'||pocket.type == 'ihd')">
+		<div class="panel radius">
+			<h5>{{'Scan For Missing Reusable Address Payment'|_}}</h5>
+			<div class="row collapse">
+				<div class="medium-12 columns">
+					<form name="pocketRenameForm" ng-show="enteringPaymentTxid" ng-submit="finalizeScanForForwardPayment(pocket, forms.txid)">
+						<input type="text" autofocus ng-model="forms.txid"></input><button class="button square righted fa fa-check" type="submit"></button>
+					</form>
+
+					<a href="" ng-click="scanForForwardPayment()" class="fa button postfix fa-terminal" tooltip="{{'If you think you have a missing forward address payment, click here and enter in the payment txid.'|_}}" tooltip-append-to-body="true">{{'Scan For Payment'|_}}</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="medium-4 columns" ng-show="advancedModeEnabled && (pocket.type == 'hd'||pocket.type == 'ihd'|| pocket.type == 'iwhd')">
+		<div class="panel radius">
+			<h5>{{'Get Unspent Outputs'|_}}</h5>
+			<div class="row collapse">
+				<div class="medium-12 columns">
+					<a href="" ng-click="fetchUnspentOutputs()" class="fa button postfix fa-chain" tooltip="{{'This feature is used to fetch unspent outputs so that you can sign and authorize a transaction using ArcBit\'s brain wallet tool.'|_}}">{{'Get Unspent Outputs'|_}}</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

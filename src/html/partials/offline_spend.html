@@ -1,0 +1,316 @@
+<!-- Header -->
+<div class="row panel radius topmargin">
+    <div class="small-12 columns">
+        <div class="row">
+            <h3>{{'Arcbit Brain Wallet'|_}} - <a target="_blank" href="http://arcbit.io/">https://arcbit.io/</a></h3>
+        </div>
+
+        <div class="row topmargin">
+            <dl class="tabs">
+                <dd ng-class="{active: stepSection=='overview'}">
+                    <a ng-click="setStepSection('overview')">{{'Overview'|_}}</a>
+                </dd>
+                <dd ng-class="{active: stepSection=='step1'}">
+                    <a ng-click="setStepSection('step1')">{{'Step 1: Create'|_}}</a>
+                </dd>
+                <dd ng-class="{active: stepSection=='step2'}">
+                    <a ng-click="setStepSection('step2')">{{'Step 2: Deposit'|_}}</a>
+                </dd>
+                <dd ng-class="{active: stepSection=='step3'}">
+                    <a ng-click="setStepSection('step3')">{{'Step 3: Fetch Data'|_}}</a>
+                </dd>
+                <dd ng-class="{active: stepSection=='step4'}">
+                    <a ng-click="setStepSection('step4')">{{'Step 4: Authorize'|_}}</a>
+                </dd>
+                <dd ng-class="{active: stepSection=='step5'}">
+                    <a ng-click="setStepSection('step5')">{{'Step 5: Spend'|_}}</a>
+                </dd>
+            </dl>
+        </div>
+
+        <div class="row topmargin" ng-show="stepSection=='overview' || !stepSection">
+            <p>{{'With the ArcBit Brain Wallet you can safely spend your bitcoins without ever having your private keys be exposed to the internet. It can be use in conjunction with the ArcBit Wallet or as a stand alone wallet.'|_}}</p>
+            <h3>{{'Offline spend'|_}}</h3>
+            <p>{{'Offline spend is a feature that allows you to safely spend your Bitcoins from cold storage without ever having your private keys be exposed to the internet. Follow the instructions below to create a cold storage wallet. If you have done so, go to step 2 to deposit your bitcoins into cold storage or go to step 3 to spend from cold storage.'|_}}</p>
+            <h3>{{'Creating a cold storage wallet'|_}}</h3>
+            <p>{{"To create a cold storage wallet first download ArcBit's Brain Wallet tool in the following linked here,"|_}} <a target="_blank" href="https://arcbitbrainwallet.com">https://arcbitbrainwallet.com</a>. {{'Save that webpage to a usb drive and then plug the usb drive into an offline computer, preferably one that never touched the internet. Then open the webpage and follow the instructions in step 1 to create your secure cold storage wallet. Step 1 and 4 should be done offline with the saved webpage, and step 2, 3 ad 5 should be done online.'|_}}</p>
+        </div>
+
+        <div class="row topmargin" ng-show="stepSection=='step1'">
+            <h3>{{'Generate Wallet'|_}}</h3>
+            <p>{{'(This section should be done offline)'|_}}</p>
+            <p>{{'To create a new cold storage, click \'New Wallet\' to create a unique 12 word mnemonic. Then back up the generated mnemonic by paper or memory and keep it to yourself. The mnemonic iself can recover all your bitcoins.'|_}}</p>
+            <p>{{'You can also input a mnemonic, account private key or account public key and view the addresses and private keys of the inputted wallet or accounts.'|_}}</p>
+            <div>
+                <h5>{{'Generate addresses from'|_}}:</h5>
+                <input type="radio" name="genAddressesFrom" value="mnemonic" id="mnemonic-radio" ng-change="genAddressesFromChanged()" ng-model="genAddressesFrom"><label for="mnemonic-radio">{{'Mnemonic'|_}}</label>
+                <input type="radio" name="genAddressesFrom" value="xprv" id="xprv-radio" ng-change="genAddressesFromChanged()" ng-model="genAddressesFrom"><label for="xprv-radio">{{'Account Private Key'|_}}</label>
+                <input type="radio" name="genAddressesFrom" value="xpub" id="xpub-radio" ng-change="genAddressesFromChanged()" ng-model="genAddressesFrom"><label for="xpub-radio">{{'Account Public Key'|_}}</label>
+            </div>
+            <label class="topmargin">{{'Mnemonic'|_}}:</label>
+            <input type="text" ng-model="mnemonic" ng-change="mnemonicChanged()" ng-disabled="!enabledMnemonicInput">
+            <code ng-show="mnemonic && showInvalidMnemonic">{{'Invalid mnemonic'|_}}</code>
+            <div class="text-right">
+                <button class="button small radius glow" ng-click="generateNewWallet()" ng-disabled="genAddressesFrom!='mnemonic'"> {{'New Wallet'|_}}</button>
+            </div>
+            <div class="row collapse">
+                <div class="small-2 columns">
+                    <label tooltip="{{'Each account has an account ID and a collection of addresses asscociated with it.'|_}}">{{'Account ID'|_}}:</label>
+                </div>
+            </div>
+            <div class="row collapse">
+                <div class="small-2 columns">
+                    <input type="text" ng-change="accountIdxChanged(accountIdx)" ng-model="accountIdx" placeholder="{{'Account ID'|_}}..." ng-disabled="!enabledMnemonicInput"/>
+                </div>
+            </div>
+            <div class="row collapse">
+                <label tooltip="{{'This key is use to authorize and spend transactions'|_}}">{{'Account Private Key'|_}}:</label>
+                <div ng-click="xprv && genAddressesFrom =='mnemonic' ? clipboard.copy(xprv) : null">
+                    <input type="text" ng-model="xprv" ng-change="xprvChanged()" ng-disabled="!enabledAccountPrivateKeyInput">
+                </div>
+                <code ng-show="showInvalidAccountPrivateKey">{{'Invalid account private key'|_}}</code>
+                <div class="text-right">
+                    <button class="button small radius glow" ng-disabled="!xprv" ng-click="modals.showBtcQr(xprv)"> {{'Show QR code'|_}}</button>
+                </div>
+            </div>
+
+            <div class="row collapse">
+                <label tooltip="{{'Enable advance mode in your Arcbit wallet and import this watch only key into to your ArcBit wallet. You can monitor your account balance, and transactions with this key, but you cannot spend with it.'|_}}">{{'Account Public Key'|_}}:</label>
+                <div ng-click="xpub && (genAddressesFrom =='mnemonic' || genAddressesFrom=='xprv') ? clipboard.copy(xpub) : null">
+                    <input type="text" ng-model="xpub" ng-change="xpubChanged()"  ng-disabled="!enabledAccountPublicKeyInput">
+                </div>
+                <code ng-show="showInvalidAccountPublicKey">{{'Invalid account public key'|_}}</code>
+                <div class="text-right">
+                    <button class="button small radius glow" ng-disabled="!xpub" ng-click="modals.showBtcQr(xpub)"> {{'Show QR code'|_}}</button>
+                </div>
+            </div>
+
+            <div>
+                <div class="row collapse">
+                    <div class="small-4 columns">
+                        <label>{{'Start receiving address ID'|_}}:</label>
+                    </div>
+                </div>
+                <div class="row collapse">
+                    <div class="small-2 columns">
+                        <input type="text" ng-change="addressIdxChanged()" ng-model="minAddrIdx" class="nomarginbottom" />
+                    </div>
+                </div>
+                <div class="text-right nomarginbottom">
+                    <input id="checkbox-more-info" ng-model="showPrivateKeys" ng-change="showKeyChanged()" type="checkbox"><label for="checkbox-more-info">{{'Show Keys'|_}}</label><br>
+                </div>
+                <div>
+                    <label class="nomarginbottom">{{'Receiving Addresses'|_}}:</label>
+                    <div class="row collapse"  ng-repeat="addr in addrs track by $index">
+                        <div class="small-12 columns topmargin">
+                            <div class="row collapse">
+                                <div class="medium-2 columns">
+                                    <span class="prefix">{{'receiving address'|_}}: {{addr.idx}}</span>
+                                </div>
+                                <div class="medium-8 columns" ng-click="addr.addr ? clipboard.copy(addr.addr) : null">
+                                    <input type="text" class="nomarginbottom" disabled="true" value="{{addr.addr}}" />
+                                </div>
+                                <div class="medium-2 columns">
+                                    <button ng-click="modals.showBtcQr(addr.addr)" ng-disabled="!addr.addr" class="nomarginbottom button postfix fa fa-qrcode">{{'Show QR'|_}}</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="small-12 columns" ng-show="showPrivateKeys">
+                            <div class="row collapse">
+                                <div class="medium-2 columns">
+                                    <span class="prefix">{{'private key'|_}}: {{addr.idx}}</span>
+                                </div>
+                                <div class="medium-8 columns" ng-click="addr.key ? clipboard.copy(addr.key) : null">
+                                    <input type="text" class="nomarginbottom" disabled="true" value="{{addr.key}}" />
+                                </div>
+                                <div class="medium-2 columns">
+                                    <button ng-click="modals.showBtcQr(addr.key)" ng-disabled="!addr.key" class="nomarginbottom button postfix fa fa-qrcode">{{'Show QR'|_}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-right nomarginbottom topmargin">
+                <input id="checkbox-show-change" ng-change="changeAddressIdxChanged()" ng-model="showChangeAddresses" type="checkbox"><label for="checkbox-show-change">{{'Show Change addresses'|_}}</label><br>
+            </div>
+            <div ng-show="showChangeAddresses">
+                <div class="row collapse">
+                    <div class="small-4 columns">
+                        <label>{{'Start change address ID'|_}}:</label>
+                    </div>
+                </div>
+                <div class="row collapse">
+                    <div class="small-2 columns">
+                        <input type="text" ng-change="changeAddressIdxChanged()" ng-model="minChangeAddrIdx" class="nomarginbottom" />
+                    </div>
+                </div>
+                <div>
+                    <label class="nomarginbottom">{{'Change Addresses'|_}}:</label>
+                    <div class="row collapse"  ng-repeat="addr in changeAddrs track by $index">
+                        <div class="small-12 columns topmargin">
+                            <div class="row collapse">
+                                <div class="medium-2 columns">
+                                    <span class="prefix">{{'change address'|_}}: {{addr.idx}}</span>
+                                </div>
+                                <div class="medium-8 columns" ng-click="addr.addr ? clipboard.copy(addr.addr) : null">
+                                    <input type="text" class="nomarginbottom" disabled="true" value="{{addr.addr}}" />
+                                </div>
+                                <div class="medium-2 columns">
+                                    <button ng-click="modals.showBtcQr(addr.addr)" ng-disabled="!addr.addr" class="nomarginbottom button postfix fa fa-qrcode">{{'Show QR'|_}}</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="small-12 columns" ng-show="showPrivateKeys">
+                            <div class="row collapse">
+                                <div class="medium-2 columns">
+                                    <span class="prefix">{{'private key'|_}}: {{addr.idx}}</span>
+                                </div>
+                                <div class="medium-8 columns" ng-click="addr.key ? clipboard.copy(addr.key) : null">
+                                    <input type="text" class="nomarginbottom" disabled="true" value="{{addr.key}}" />
+                                </div>
+                                <div class="medium-2 columns">
+                                    <button ng-click="modals.showBtcQr(addr.key)" ng-disabled="!addr.key" class="nomarginbottom button postfix fa fa-qrcode">{{'Show QR'|_}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row topmargin" ng-show="stepSection=='step2'">
+            <h3>{{'Deposit bitcoins into cold storage'|_}}</h3>
+            <p>{{'If you have already deposit bitcoins into your cold storage wallet and would like to spend them, go to step 3.'|_}}</p>
+
+            <h3>{{'There are two ways to deposit bitcoins into cold storage'|_}}</h3>
+            <p>{{"1) You can enable advanced mode in ArcBit's wallet and import your account public key (that was generated in step 1) as an watch only account. This method is recommended."|_}}</p>
+            <p>{{"2) You can use Arcbit's Brain Wallet tool to generate your addresses manually back in step 1. The drawback is that you have to keep track of which addresses to receive bitcoins into. (This method can be done offline)"|_}}</p>
+        </div>
+
+        <div class="row topmargin" ng-show="stepSection=='step3'">
+            <h3>{{'Find spendable bitcoins'|_}}</h3>
+            <p>{{'(This section requires you to be online)'|_}}</p>
+            <p>{{"After you have bitcoins your account, you can fetch blockchain data on your account. Then either download or copy the account data to a file. Then take to file to your offline computer and load ArcBit's Brain Wallet tool to authorize the transaction with your private keys. Then take the signed authorized transaction data to step 5."|_}}</p>
+
+            <h3>{{'There are two ways to fetch blockchain data on your account'|_}}</h3>
+            <p>{{"1) You can enable advanced mode in ArcBit's wallet and import your account public key as an watch only account, then go to the actions sections and click 'Get Unspent Outputs'. This method is recommended."|_}}</p>
+            <p>{{"2) You can use the form below. You have to input the account public key and the address IDs of the addresses you received bitcoins into."|_}}</p>
+
+
+            <label>{{'Account Public Key'|_}}:</label>
+            <input type="text" ng-model="step2Input" required btc-address placeholder="xpub..."/>
+            <label>{{'Receiving Addresses'|_}}:</label>
+            <input type="text" ng-model="addressIdxes" required btc-address placeholder="{{'receiving address ids eg: 0,1,2-6,8...'|_}}"/>
+            <label>{{'Change Addresses'|_}}:</label>
+            <input type="text" ng-model="changeAddressIdxes" required btc-address placeholder="{{'change address ids eg: 0,1,2-6,8...'|_}}"/>
+            <div class="text-right">
+                <button class="button small radius glow" ng-click="fetchAccountData(step2Input, addressIdxes, changeAddressIdxes)"> {{'Fetch account data'|_}}</button>
+            </div>
+            <textarea readonly ng-show="accountData" rows="16">{{accountData}}</textarea>
+            <div class="text-right" ng-show="accountData">
+                <button class="button small radius glow" ng-click="downloadAccountData()"> {{'Download to file'|_}}</button>
+            </div>
+        </div>
+
+        <div class="row topmargin" ng-show="stepSection=='step4'">
+            <h3>{{'Authorize Transaction'|_}}</h3>
+            <p>{{'(This section should be done offline)'|_}}</p>
+            <p>{{'Step 1) Input your account private key. This key is use to sign and authorize the transaction.'|_}}</p>
+            <div class="panel radius">
+                <label tooltip="{{'This key is use to authorize and spend transactions'|_}}">{{'Account Private Key'|_}}:</label>
+                <input type="text" ng-model="spendingXprv" ng-change="spendingXprvChanged()" placeholder="xprv...">
+                <code ng-show="showInvalidSpendingAccountPrivateKey">{{'Invalid Private Key'|_}}</code>
+            </div>
+
+
+            <p>{{'Step 2) Load the account data file or paste it into the text area below.'|_}}</p>
+            <div class="panel radius">
+                <label tooltip="{{'This key is use to authorize and spend transactions'|_}}">{{'Account Data'|_}}:</label>
+                <input type="file" id="account-data-file"></input>
+                <textarea required ng-model="spendingAccountData" ng-change="computeBalanceFromUTXOs()" rows="6" placeholder="{{'Account data'|_}}..."></textarea>
+                <code ng-show="showInvalidSpendingAccountData">{{'Invalid Account Data'|_}}</code>
+            </div>
+
+            <p>{{'Step 3) Input the address and amount that you wish to spend'|_}}</p>
+
+            <div class="panel radius">
+                <h5>{{'Account Balance'|_}}: {{accountBalance}}</h5>
+                <div class="row collapse" ng-repeat="field in quicksend.fields">
+                    <div class="row collapse topmargin">
+                        <h5>{{'To'|_}}</h5>
+                        <div class="row collapse text-right">
+                            <a class="fa fa-minus-square" ng-show="$index!=0"  ng-click="removeRecipient($index)" tooltip="{{'Remove recipient'|_}}"></a>
+                        </div>
+                        <div class="small-10 columns">
+                            <input type="text" ng-change="saveToAddress(field.address, $index)" ng-model="field.address" required btc-address placeholder="{{'Bitcoin address...'|_}}" class="nomarginbottom"/>
+                        </div>
+                        <div class="small-2 columns">
+                            <a href="" tooltip-append-to-body="true" tooltip="{{'Scan QR code'|_}}" ng-click="getAddressFromQRCode(field, $index)" class="fa button square prefix fa-qrcode"></a>
+                        </div>
+                    </div>
+                    <div class="row collapse">
+                        <h5>{{'Amount'|_}}</h5>
+                        <div class="small-10 columns">
+                            <input type="text" ng-change="updateFiatAmount(field, $index)" ng-model="field.bitcoinAmount" required btc-address placeholder="{{'Bitcoin amount'|_}}..." class="nomarginbottom" />
+                        </div>
+                        <div class="small-2 columns">
+                            <a class="button postfix nomarginbottom">BTC</a>
+                        </div>
+                        <div class="row collapse">
+                            <a class="fa fa-sun-o"  ng-click="useAllFunds(field, $index)" tooltip="{{'Use All Funds'|_}}"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row collapse text-right">
+                    <a class="fa fa-plus-square"  ng-click="addRecipient()" tooltip="{{'Add recipient'|_}}"></a>
+                </div>
+                <div class="row collapse topmargin">
+                    <a class="fa fa-minus-square" ng-click="quicksend.showFee=!quicksend.showFee" tooltip="{{'Change default transaction fee'|_}}"></a>
+                </div>
+                <div class="row collapse" ng-show="quicksend.showFee">
+                    <h5>{{'Fee Amount'|_}}</h5>
+                    <div class="small-10 columns">
+                        <input type="text" ng-change="updateFiatFeeAmount()" ng-model="quicksend.bitcoinFeeAmount" required btc-address placeholder="{{'Bitcoin fee amount'|_}}..." class="nomarginbottom" />
+                    </div>
+                    <div class="small-2 columns">
+                        <a class="button postfix nomarginbottom">BTC</a>
+                    </div>
+                </div>
+            </div>
+
+
+            <p>{{'Step 4) Click \'Sign Transaction\' to create the raw transaction. Copy the raw transaction to a usb device. Then back in your ArcBit wallet, go to step 5 of ArcBit\'s brain wallet section to send your transaction.'|_}}</p>
+            <div class="panel radius">
+                <label>{{'Transaction Detail'|_}}:</label>
+                <textarea required ng-model="spendingTxDetail" rows="8" placeholder="{{'Transaction detail...'|_}}" readonly></textarea>
+
+                <label>{{'Raw Transaction'|_}}:</label>
+                <textarea required ng-model="spendingTxHex" rows="4" placeholder="{{'Raw transaction data...'|_}}" readonly></textarea>
+
+                <div class="text-right">
+                    <button class="button small radius glow" ng-click="signTx()"> {{'Sign Transaction'|_}}</button>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="row topmargin" ng-show="stepSection=='step5'">
+            <h3>{{'Send Transaction'|_}}</h3>
+            <p>{{'(This section requires you to be online)'|_}}</p>
+            <p>{{'Paste the transaction into the text area and send the transaction.'|_}}</p>
+            <textarea required ng-model="txHex" rows="12" placeholder="{{'Raw transaction data...'|_}}"></textarea>
+            <div class="text-right">
+                <button class="button small radius glow" ng-click="sendTx(txHex)"> {{'Send Transaction'|_}}</button>
+            </div>
+        </div>
+
+    </div>
+    <!-- Bottom row -->
+    <!--<div class="row collapse">
+        <p>{{'Always displayed bottom text'|_}}</p>
+    </div>-->
+</div>
+

@@ -1,0 +1,24 @@
+{
+  "name": "ArcBit Bitcoin Wallet",
+  "short_name": "ArcBit",
+  "description": "Full featured yet simple bitcoin wallet.",
+  "homepage_url": "http://arcbit.io",
+  "version": "1.0.13",
+  "manifest_version": 2,
+  "icons": {
+    "128": "src/images/icon_128.png"
+  },
+  "browser_action": {
+    "default_title": "Arcbit",
+    "default_icon": "src/images/icon_128.png",
+    "default_popup": "src/html/popup.html"
+  },
+  "background": {
+    "page": "src/html/background.html"
+  },
+  "permissions": [
+    "storage", "unlimitedStorage", "<all_urls>"
+  ],
+  "options_page": "src/html/index.html#/settings",
+  "minimum_chrome_version": "48.0"
+}

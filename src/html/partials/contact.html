@@ -1,0 +1,37 @@
+<div class="row panel radius topmargin">
+    <div class="small-12 columns">
+        <div class="row">
+            <identicon icon-size="48" hash="vars.contact.hash" title="{{vars.contact.hash}}"></identicon>
+            <span class="contact-name">{{vars.contact.name}}</span>
+        </div>
+
+        <div class="row topmargin" ng-show="contactSection=='overview' || !contactSection">
+            <div class="row collapse">
+                <div class="large-8 medium-7 columns">
+                    <input type="text" readonly value="{{vars.contact.address}}" />
+                </div>
+                <div class="large-2 medium-2 small-6 columns">
+                    <a href="" tooltip-append-to-body="true" tooltip="{{'Copy to clipboard'|_}}" ng-click="clipboard.copy(vars.contact.address)" class="button postfix fa fa-clipboard">{{'Copy'|_}}</a>
+                </div>
+                <div class="large-2 medium-2 small-6 columns">
+                    <a class="button postfix radius fa fa-qrcode" tooltip-append-to-body="true" tooltip="{{'Show QR code'|_}}" ng-click="modals.showBtcQr(vars.contact.address)">QR</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div ng-show="!creatingContact" class="row collapse">
+        <div class="small-4 columns">
+            <a href="#contacts" class="fa fa-arrow-left nomarginbottom button small radius"> {{'Back'|_}}</a>
+        </div>
+        <div class="small-8 columns text-right">
+            <form name="contactEditForm" ng-show="contactSection=='overview'&&!(editingContact===false)" ng-submit="saveName(vars.contact, contactToEdit.name)">
+                <input type="text" autofocus ng-model="contactToEdit.name"><button class="button square righted fa fa-check" type="submit"></button>
+            </form>
+            <div ng-show="contactSection=='overview'">
+                <a ng-click="openEditForm(vars.contact, 0)" class="fa button small nomarginbottom radius fa-terminal"> {{'Rename'|_}}</a>
+                <a ng-click="modals.open('confirm-delete', {name: vars.contact.name, object: vars.contact}, deleteContact)" class="small button nomarginbottom radius alert fa fa-trash-o"> {{'Delete'|_}}</a>
+            </div>
+        </div>
+    </div>
+

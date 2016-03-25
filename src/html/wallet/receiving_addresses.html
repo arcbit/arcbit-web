@@ -1,0 +1,53 @@
+<div class="row" ng-controller="ReceivingAddressesCtrl">
+    <div class="small-12 columns" ng-show="pocket.mainAddress">
+        <div class="row collapse panel radius">
+            <div class="medium-2 columns">
+                <span class="prefix radius">{{(pocket.type == 'hd'||pocket.type == 'ihd') ? ('Reusable Address'|_) : ('Address'|_)}}</span>
+            </div>
+            <div class="medium-6 columns">
+                <input type="text" class="nomarginbottom" disabled="true" value="{{pocket.mainAddress}}" />
+            </div>
+            <div class="medium-2 columns">
+                <button ng-click="clipboard.copy(pocket.mainAddress)" class="nomarginbottom button postfix fa fa-clipboard">{{'Copy'|_}}</button>
+            </div>
+            <div class="medium-2 columns">
+                <button ng-click="modals.showBtcQr(pocket.mainAddress)" class="nomarginbottom button postfix radius fa fa-qrcode">{{'Show QR'|_}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row topmargin" ng-controller="ReceivingAddressesCtrl">
+    <div class="small-12 columns" ng-show="pocket.type == 'hd'||pocket.type == 'ihd'||pocket.type == 'iwhd'">
+        <div class="panel radius">
+            <ul id="address-actions" class="f-dropdown">
+                <li>
+                    <a ng-click="modals.showBtcQr(currentAddress.address)" class="fa fa-qrcode"> {{'Show QR code'|_}}</a>
+                </li>
+                <li>
+                    <a ng-click="clipboard.copy(currentAddress.address)" class="fa fa-clipboard"> {{'Copy address'|_}}</a>
+                </li>
+                <li>
+                    <a ng-click="showAddressInWeb(currentAddress.address)" class="fa fa-globe"> {{'Show in Web'|_}}</a>
+                </li>
+                <li ng-show="advancedModeEnabled">
+                    <a ng-click="signMessage(currentAddress.address)" class="fa fa-pencil"> {{'Sign message'|_}}</a>
+                </li>
+            </ul>
+
+            <div class="row collapse address-row"  ng-repeat="address in addresses track by $index">
+                <div class="small-4 columns ellipsis">
+                    <a ng-click="setCurrentAddress(address)" dropdown-toggle="#address-actions" class="fa button square lefted fa-chevron-circle-down"></a>
+                </div>
+
+                <div class="small-6 columns ellipsis" ng-click="clipboard.copy(address.address)">
+                    {{address.address}}
+                </div>
+                <div class="small-2 columns text-right" ng-show="false">
+                </div>
+            </div>
+            <div class="text-left topmargin" ng-show="pocket.type==='hd'||pocket.type==='ihd'||pocket.type==='iwhd'">
+                <a class="fa fa-question" tooltip="{{'New addresses will be automatically generated and cycled for you as you use your current available addresses.'|_}}"></a>
+            </div>
+        </div>
+    </div>
+</div>

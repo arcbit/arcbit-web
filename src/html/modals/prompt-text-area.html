@@ -1,0 +1,13 @@
+<div class="large-8 large-centered columns panel radius topmargin">
+    <form ng-submit="ok(vars.inputText)">
+        <h3>{{vars.title}}</h3>
+        <label ng-show="vars.description">{{vars.description}}</label>
+        <textarea ng-model="vars.textData" rows="8" readonly></textarea>
+        <button class="button small fa fa-check radius glow" ng-if="vars.okText"> {{vars.okText}}</button>
+        <button class="button small fa fa-check radius glow" ng-if="!vars.okText"> {{'OK'|_}}</button>
+        <a class="button alert small radius fa fa-times" ng-click="cancel()"> {{'Cancel'|_}}</a>
+    </form>
+</div>
+<div class="qractions">
+    <a class="fa fa-times button" ng-click="cancel()"></a>
+</div>

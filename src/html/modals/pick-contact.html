@@ -1,0 +1,27 @@
+<div ng-controller="ContactsCtrl" class="large-11 large-centered columns panel inherit-height">
+
+	<div class="row">
+		<div class="small-6 columns">
+			<h3>{{'Select a contact'|_}}</h3>
+		</div>
+	</div>
+
+	<div class="row inherit-height">
+		<div class="small-12 columns inherit-height">
+			<div class="contact-mosaic">
+				<ul class="large-block-grid-5 medium-block-grid-3 small-block-grid-2">
+					<li ng-repeat="contact in contacts | orderBy:'name' track by $index" ng-click="pickContact(contact)">
+						<div class="contact-mosaic-square">
+							<identicon icon-size="64" hash="contact.hash" title="{{contact.hash}}"></identicon>
+							<div class="contact-label">{{contact.name}}</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="qractions">
+	<a class="fa fa-times button" ng-click="cancel()"></a>
+</div>
