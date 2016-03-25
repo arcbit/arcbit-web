@@ -9,7 +9,7 @@ You may notice similarities of the UI to the DarkWallet project (https://github.
 2. Alternatively you can have your ArcBit Wallet encrypted only if you explicitly click logout. This means that if you just close the ArcBit Wallet browser tab or even if you exit Chrome without clicking logout, you can reopen ArcBit without having to login.
 
 #####Chrome store link:
-https://itunes.apple.com/app/arcbit-bitcoin-wallet/id999487888
+https://chrome.google.com/webstore/detail/arcbit-bitcoin-wallet/dkceiphcnbfahjbomhpdgjmphnpgogfk
 
 #####Other ArcBit services:
 https://itunes.apple.com/app/arcbit-bitcoin-wallet/id999487888
