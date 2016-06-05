@@ -60,7 +60,7 @@ define(['model/TLCoin', 'model/TLWalletUtils', 'model/TLCurrencyFormat'],
                 expect(new TLCoin(10000).bigIntegerToBitcoinAmountString(TLCoin.TLBitcoinDenomination.BTC)).toBe('0.0001');
                 expect(new TLCoin(10000).bigIntegerToBitcoinAmountString(TLCoin.TLBitcoinDenomination.mBTC)).toBe('0.1');
                 expect(new TLCoin(10000).bigIntegerToBitcoinAmountString(TLCoin.TLBitcoinDenomination.bits)).toBe('100.00');
-                expect(new TLCoin("0.010000", TLCoin.TLBitcoinDenomination.BTC).bigIntegerToBitcoinAmountString(TLCoin.TLBitcoinDenomination.BTC)).toBe('0.0001');
+                expect(TLCoin.fromString("0.010000", TLCoin.TLBitcoinDenomination.BTC).bigIntegerToBitcoinAmountString(TLCoin.TLBitcoinDenomination.BTC)).toBe('0.01');
             });
 
             it('test isValidInputTransactionFee', function () {
