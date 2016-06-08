@@ -26,6 +26,8 @@ define(['bitcoinjs-lib', 'crypto-js', 'sjcl'],
             var SHA256 = CryptoJS.SHA256;
             var passwordDigest = TLCrypto.wordArrayToBytes(SHA256(SHA256(SHA256(password))));
             return new Bitcoin.Buffer(passwordDigest).toString('hex');
+            // maybe go with this password digest or something to that effect
+            //return sjcl.codec.base64.fromBits(sjcl.misc.pbkdf2(password, email, 1000));
         };
 
         TLCrypto.getPasswordHash = function(password) {
