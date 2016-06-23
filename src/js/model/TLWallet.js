@@ -62,13 +62,13 @@ define(['model/TLWalletJSONKeys', 'model/TLHDWalletWrapper', 'model/TLWalletUtil
                 return account;
             }
 
+            var extendedPublicKey = account[TLWalletJSONKeys.WALLET_PAYLOAD_EXTENDED_PUBLIC_KEY];
             //create initial receiving address
             for (var i = 0; i < TLAccountObject.MAX_ACCOUNT_WAIT_TO_RECEIVE_ADDRESS; i++) {
                 var mainAddressDict = {};
                 var mainAddressIdx = i;
                 var mainAddressSequence = [TLWalletJSONKeys.TLAddressType.MAIN, mainAddressIdx];
 
-                var extendedPublicKey = account[TLWalletJSONKeys.WALLET_PAYLOAD_EXTENDED_PUBLIC_KEY];
                 var address = TLHDWalletWrapper.getAddress(extendedPublicKey, mainAddressSequence, TLBitcoinJSWrapper.getNetwork(isTestnet));
                 mainAddressDict[TLWalletJSONKeys.WALLET_PAYLOAD_KEY_ADDRESS] = address;
                 mainAddressDict[TLWalletJSONKeys.WALLET_PAYLOAD_KEY_STATUS] = TLWalletJSONKeys.TLAddressStatus.ACTIVE;
