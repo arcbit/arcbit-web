@@ -757,6 +757,17 @@ define(['model/TLWalletJSONKeys', 'model/TLHDWalletWrapper', 'model/TLWalletUtil
             this.appDelegate.saveWalletPayloadDelay();
         };
 
+        TLWallet.prototype.getLabelForAddress = function (address) {
+            var addressBookArray = this.getCurrentWallet()[TLWalletJSONKeys.WALLET_PAYLOAD_KEY_ADDRESS_BOOK];
+            for (var i = 0; i < addressBookArray.length; i++) {
+                var addressBook = addressBookArray[i];
+                if (address == addressBook[TLWalletJSONKeys.WALLET_PAYLOAD_KEY_ADDRESS]) {
+                    return addressBook[TLWalletJSONKeys.WALLET_PAYLOAD_KEY_LABEL];
+                }
+            }
+            return null;
+        };
+
         TLWallet.prototype.editAddressBookEntry = function (index, label) {
             var addressBookArray = this.getCurrentWallet()[TLWalletJSONKeys.WALLET_PAYLOAD_KEY_ADDRESS_BOOK];
             addressBookArray[index][TLWalletJSONKeys.WALLET_PAYLOAD_KEY_LABEL] = label;

@@ -207,6 +207,15 @@ define(['./module', 'frontend/port', 'arcbit', 'bitcoinjs-lib', 'model/TLStealth
                             if (!$scope.$$phase) {
                                 $scope.$apply();
                             }
+
+                            for (var i = 0; i < toAddressesAndAmount.length; i++) {
+                                var label = AppDelegate.instance().appWallet.getLabelForAddress(toAddressesAndAmount[i]['address']);
+                                if (label != null) {
+                                    AppDelegate.instance().appWallet.setTransactionTag(transactionHash, label);
+                                    break;
+                                }
+                            }
+
                             transactionHex = transactionHash = toStealthAddress = null;
                             $timeout(function(){
                                 if (modals.spinnerShowing) {
