@@ -3,11 +3,15 @@
 define(function() {
     var lang = [
         {"name": "English (US)", "code": "en_US"},
+        {"name": "Chinese (Simplified)", "code": "zh_CN"},
+        {"name": "Chinese (Traditional)", "code": "tw_CN"},
         {"name": "Español (España)", "code": "es_ES"}
     ];
     
     var fallbacks = {
         "en": "en_US",
+        "tw": "zh_CN",
+        "zh": "tw_CN",
         "es": "es_ES"
     };
     
