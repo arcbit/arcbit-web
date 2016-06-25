@@ -3,10 +3,10 @@
 define(['arcbit', 'backend/port', 'model/TLPreferences', 'model/TLStealthServerConfig', 'model/TLBlockExplorerAPI', 'model/TLStealthExplorerAPI',
         'model/TLWallet', 'model/TLWalletUtils', 'model/TLHDWalletWrapper', 'model/TLAccounts', 'model/TLStealthWebSocket',
         'model/TLWalletJson', 'model/TLWalletJSONKeys', 'model/TLBlockchainStatus', 'model/TLImportedAddresses', 'model/TLCurrencyFormat',
-        'model/TLSpaghettiGodSend', 'model/TLPushTxAPI', 'model/TLTxObject', 'model/TLContacts', 'angular'],
+        'model/TLSpaghettiGodSend', 'model/TLPushTxAPI', 'model/TLTxObject', 'model/TLContacts', 'model/TLUtils', 'angular'],
     function(ArcBit, Port, TLPreferences, TLStealthServerConfig, TLBlockExplorerAPI, TLStealthExplorerAPI, TLWallet,
              TLWalletUtils, TLHDWalletWrapper, TLAccounts, TLStealthWebSocket, TLWalletJson, TLWalletJSONKeys, TLBlockchainStatus,
-             TLImportedAddresses, TLCurrencyFormat, TLSpaghettiGodSend, TLPushTxAPI, TLTxObject, TLContacts, angular) {
+             TLImportedAddresses, TLCurrencyFormat, TLSpaghettiGodSend, TLPushTxAPI, TLTxObject, TLContacts, TLUtils, angular) {
 
         var MAX_CONSECUTIVE_FAILED_STEALTH_CHALLENGE_COUNT = 8;
         var RESPOND_TO_STEALTH_PAYMENT_GET_TX_TRIES_MAX_TRIES = 3;
@@ -184,14 +184,18 @@ define(['arcbit', 'backend/port', 'model/TLPreferences', 'model/TLStealthServerC
                 var DEFAULT_CURRENCY = "USD";
                 this.preferences.setCurrency(DEFAULT_CURRENCY);
             }
-            var globalLanguage = ArcBit.getKeyRing().globalSettings.getLanguage();
-            if (globalLanguage) {
-                this.preferences.setLanguage(globalLanguage);
-            } else {
-                var DEFAULT_LANGUAGE = "en_US";
-                DEFAULT_LANGUAGE = "es_ES"; //DEBUG
-                this.preferences.setLanguage(DEFAULT_LANGUAGE);
-            }
+            // var globalLanguage = ArcBit.getKeyRing().globalSettings.getLanguage();
+            // if (globalLanguage) {
+            //     this.preferences.setLanguage(globalLanguage);
+            // } else {
+            //     var defaultLanguage = TLUtils.getBrowserLanguage();
+            //     this.preferences.setLanguage(defaultLanguage);
+            // }
+            var defaultLanguage = TLUtils.getBrowserLanguage();
+            //defaultLanguage = "en_US"; //DEBUG
+            //defaultLanguage = "es_ES"; //DEBUG
+            this.preferences.setLanguage(defaultLanguage);
+
             var globalAlwaysEncrypt = ArcBit.getKeyRing().globalSettings.getAlwaysEncrypt();
             if (globalAlwaysEncrypt != null) {
                 this.preferences.setAlwaysEncrypt(globalAlwaysEncrypt);

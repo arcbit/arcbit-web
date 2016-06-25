@@ -8,7 +8,7 @@
  * @param {Object} $scope Angular scope.
  * @constructor
  */
-define(['frontend/controllers/module', 'arcbit', 'frontend/port'], function (controllers, ArcBit, Port) {
+define(['frontend/controllers/module', 'arcbit', 'frontend/port', 'model/TLUtils'], function (controllers, ArcBit, Port, TLUtils) {
     controllers.controller('PopupCtrl', ['$scope', '$window', '$translate', function($scope, $window, $translate) {
 
         $scope.identityLoaded = false;
@@ -23,6 +23,8 @@ define(['frontend/controllers/module', 'arcbit', 'frontend/port'], function (con
         var globalLanguage = ArcBit.getKeyRing().globalSettings.getLanguage();
         if (globalLanguage) {
             $translate.use(globalLanguage);
+        } else {
+            $translate.use(TLUtils.getBrowserLanguage());
         }
 
         // Wallet service, connect to get notified about identity getting loaded.

@@ -6,6 +6,21 @@ define([],
         function TLUtils() {
         }
 
+        TLUtils.getBrowserLanguage = function() {
+            var uiLanguage = chrome.i18n.getUILanguage();
+            console.log("uiLanguage: " + uiLanguage);
+            if (uiLanguage == "en") {
+                return "en_US";
+            } else if (uiLanguage == "zh-CN") {
+                return "zh_CN";
+            } else if (uiLanguage == "zh-TW") {
+                return "tw_CN";
+            } else if (uiLanguage == "es") {
+                return "es_ES";
+            }
+            return "en_US";
+        };
+
         TLUtils.defaultAppName = function() {
             return "ArcBit";
         };
