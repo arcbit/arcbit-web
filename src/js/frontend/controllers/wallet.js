@@ -34,16 +34,14 @@ define(['./module', 'arcbit', 'frontend/port', 'model/TLExchangeRate', 'model/TL
                         var identity = ArcBit.getIdentity();
 
                         if (identity.appDelegate.preferences.showLogoutWarning()) {
-                            modals.promptForOKCancel('Logout Warning', 'Password is required to log back in. By default your password is ' +
-                                'your 12 word mnemonic, which is found in settings.', 'Logout', null, function() {
+                            modals.promptForOKCancel(_('Logout Warning'), _('Password is required to log back in. By default your password is your 12 word mnemonic, which is found in settings.'), _('Logout'), null, function() {
                                 identity.appDelegate.preferences.setShowLogoutWarning(false);
                                 $scope.logoutWallet();
                             });
                             return;
                         }
                         if (!identity.appDelegate.preferences.viewedMnemonic()) {
-                            modals.promptForOK("Warning", 'ArcBit has detected that you have not yet viewed your 12 word mnemonic. First ' +
-                                'write down or memorize your 12 word mnemonic, which is found in settings.', null);
+                            modals.promptForOK(_("Warning"), _('ArcBit has detected that you have not yet viewed your 12 word mnemonic. First write down or memorize your 12 word mnemonic, which is found in settings.'), null);
                             return;
                         }
 
@@ -264,7 +262,7 @@ define(['./module', 'arcbit', 'frontend/port', 'model/TLExchangeRate', 'model/TL
                                 var walletService = ArcBit.service.wallet;
                                 var mnemonic = TLHDWalletWrapper.generateMnemonicPassphrase();
 
-                                var firstWalletName = "Wallet 1";
+                                var firstWalletName = "Wallet 1"; //Dont need to translate, first created wallet is always in english
                                 var recoverFromMnemonic = false;
                                 //recoverFromMnemonic = true; // DEBUG uncomment to restore wallet on create first wallet
                                 walletService.createIdentity(firstWalletName, 'bitcoin', mnemonic, recoverFromMnemonic, function(identity) {

@@ -10,8 +10,8 @@ define(function() {
     
     var fallbacks = {
         "en": "en_US",
-        "tw": "zh_CN",
-        "zh": "tw_CN",
+        "zh": "zh_CN",
+        "tw": "tw_CN",
         "es": "es_ES"
     };
     
