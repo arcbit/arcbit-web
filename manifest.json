@@ -3,7 +3,7 @@
   "short_name": "ArcBit",
   "description": "Full featured yet simple bitcoin wallet.",
   "homepage_url": "http://arcbit.io",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "manifest_version": 2,
   "icons": {
     "128": "src/images/icon_128.png"
