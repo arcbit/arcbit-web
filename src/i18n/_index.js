@@ -3,8 +3,8 @@
 define(function() {
     var lang = [
         {"name": "English (US)", "code": "en_US"},
-        {"name": "Chinese (Simplified)", "code": "zh_CN"},
-        {"name": "Chinese (Traditional)", "code": "tw_CN"},
+        {"name": "简体中文", "code": "zh_CN"},
+        {"name": "繁体中文", "code": "tw_CN"},
         {"name": "Español (España)", "code": "es_ES"}
     ];
     
