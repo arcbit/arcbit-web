@@ -13,6 +13,7 @@ define(['./module', 'frontend/port', 'arcbit', 'bitcoinjs-lib', 'model/TLStealth
                 var transactionHex = null;
                 var transactionHash = null;
                 var toStealthAddress = null;
+                var toAddressesAndAmount = null;
 
                 $scope.saveToAddress = function(address, idx) {
                     identity.appDelegate.sendFormsData[idx].address = address;
@@ -150,8 +151,8 @@ define(['./module', 'frontend/port', 'arcbit', 'bitcoinjs-lib', 'model/TLStealth
                             notify.warning(_("Insufficient Funds. Account only has a balance of") + ' ' + unspentOutputsSumString);
                             return;
                         }
-                        var toAddressesAndAmount = [];
                         var isSelfStealthPayment = false;
+                        toAddressesAndAmount = [];
                         for (var i = 0; i < tos.length; i++) {
                             var amount = currencyFormat.properBitcoinAmountStringToCoin(tos[i].bitcoinAmount);
                             toAddressesAndAmount.push({address:tos[i].address, amount:amount});
@@ -209,9 +210,9 @@ define(['./module', 'frontend/port', 'arcbit', 'bitcoinjs-lib', 'model/TLStealth
                             }
 
                             for (var i = 0; i < toAddressesAndAmount.length; i++) {
-                                var label = AppDelegate.instance().appWallet.getLabelForAddress(toAddressesAndAmount[i]['address']);
+                                var label = identity.appDelegate.appWallet.getLabelForAddress(toAddressesAndAmount[i]['address']);
                                 if (label != null) {
-                                    AppDelegate.instance().appWallet.setTransactionTag(transactionHash, label);
+                                    identity.appDelegate.appWallet.setTransactionTag(transactionHash, label);
                                     break;
                                 }
                             }
