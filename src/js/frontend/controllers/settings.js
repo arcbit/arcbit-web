@@ -6,11 +6,21 @@ define(['./module', 'arcbit', 'available_languages',
               TLWalletUtils, TLBlockExplorerAPI, TLCurrencyFormat) {
 
         // Controller
-        controllers.controller('WalletSettingsCtrl', ['$scope', 'modals', '$tabs', 'notify', '$animate', '$translate', '_Filter', function($scope, modals, $tabs, notify, $animate, $translate, _) {
+        controllers.controller('WalletSettingsCtrl', ['$scope', 'modals', '$tabs', 'notify', '$animate', '$translate', '$timeout', '_Filter', function($scope, modals, $tabs, notify, $animate, $translate, $timeout, _) {
             var identity = ArcBit.getIdentity();
+            function translateLocalCurrencies() {
+                var translatedCurrencies = [];
+                for (var i = 0; i < TLCurrencyFormat.fiatCurrenciesList.length; i++) {
+                    var fiat = TLCurrencyFormat.fiatCurrenciesList[i];
+                    translatedCurrencies.push({"name":_(fiat.name) + ' ' + fiat.code,"code":fiat.code});
+                }
+                $scope.fiatCurrencies = translatedCurrencies;
+                if (!$scope.$$phase) {
+                    $scope.$apply();
+                }
+            }
 
-            // Available fiat currencies
-            $scope.fiatCurrencies = TLCurrencyFormat.fiatCurrenciesList;
+            translateLocalCurrencies();
 
             var preferences = identity.appDelegate.preferences;
             $scope.selectedCurrency = preferences.getBitcoinDenomination();
@@ -165,6 +175,7 @@ define(['./module', 'arcbit', 'available_languages',
                 $translate.use($scope.selectedLanguage);
                 preferences.setLanguage($scope.selectedLanguage);
                 ArcBit.getKeyRing().globalSettings.setLanguage($scope.selectedLanguage);
+                translateLocalCurrencies();
             };
 
             // Identity settings
