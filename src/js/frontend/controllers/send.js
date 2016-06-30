@@ -226,7 +226,7 @@ define(['./module', 'frontend/port', 'arcbit', 'bitcoinjs-lib', 'model/TLStealth
                                         $scope.$apply();
                                     }
                                 }
-                            }, 13000, false);
+                            }, 5000, false);
                         }, function(response) {
                             $animate.enabled(identity.appDelegate.preferences.getAnimation());
                             modals.cancel();
