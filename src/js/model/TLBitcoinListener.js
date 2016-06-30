@@ -145,15 +145,20 @@ define(['model/TLBlockExplorerAPI', 'angular', 'socket-io'],
                 if (!this.socket) {
                     return false;
                 }
+                //this.socket.emit('subscribe', address);
+                this.socket.emit("unsubscribe", "bitcoind/addresstxid", [address]);
+                this.socket.emit("subscribe", "bitcoind/addresstxid", [address]);
                 //console.log("listenFor Address " + address);
-                this.socket.emit('subscribe', address);
+
                 var self = this;
-                this.socket.on(address, function (data) {
-                    //console.log("address: " + address + ' : ' + data);
-                    self.appDelegate.blockExplorerAPI.getTx(data, function (jsonData) {
-                        self.appDelegate.updateModelWithNewTransaction(jsonData);
-                    }, function (err) {
-                    });
+                this.socket.on('bitcoind/addresstxid', function (data) {
+                    if (data.address === address) {
+                        //console.log("address: " + address + ' : ' + JSON.stringify(data));
+                        self.appDelegate.blockExplorerAPI.getTx(data.txid, function (jsonData) {
+                            self.appDelegate.updateModelWithNewTransaction(jsonData);
+                        }, function (err) {
+                        });
+                    }
                 });
                 return true;
             }
