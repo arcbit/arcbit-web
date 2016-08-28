@@ -37,7 +37,7 @@ define(['model/TLNetworking', 'model/TLBitcoinJSWrapper', 'model/TLCoin'],
 
         TLInsightAPI.prototype.getAddressesInfo = function(addressArray, txCountFrom, allTxs, success, failure) {
             var endPoint = 'api/addrs/' + addressArray.join(',')+'/txs';
-            var parameters = {"from":txCountFrom};
+            var parameters = {"from":txCountFrom, "to":txCountFrom+50};
             var url = this.baseURL + endPoint;
             var self = this;
             this.networking.httpGET(url, parameters, function(jsonData) {
