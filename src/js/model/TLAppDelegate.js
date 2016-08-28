@@ -167,8 +167,8 @@ define(['arcbit', 'backend/port', 'model/TLPreferences', 'model/TLStealthServerC
             this.preferences.setTransactionFee(TLWalletUtils.DEFAULT_FEE_AMOUNT());
             this.preferences.resetBlockExplorerAPIURL();
 
-            var DEFAULT_BLOCKEXPLORER_API = TLBlockExplorerAPI.TLBlockExplorer.INSIGHT;
-            //DEFAULT_BLOCKEXPLORER_API = TLBlockExplorerAPI.TLBlockExplorer.BLOCKCHAIN;
+            var DEFAULT_BLOCKEXPLORER_API = TLBlockExplorerAPI.TLBlockExplorer.BLOCKCHAIN;
+            //DEFAULT_BLOCKEXPLORER_API = TLBlockExplorerAPI.TLBlockExplorer.INSIGHT;
             var DEFAULT_BLOCKEXPLORER_URL_IDX = 0;
             //DEFAULT_BLOCKEXPLORER_URL_IDX = 1;
             this.preferences.setSelectedBlockExplorer(DEFAULT_BLOCKEXPLORER_API, DEFAULT_BLOCKEXPLORER_URL_IDX);
