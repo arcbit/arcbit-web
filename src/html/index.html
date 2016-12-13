@@ -26,6 +26,8 @@
 
     <top-bar-section ng-if="identityName">
       <ul class="right">
+        <li ng-show="isLoggedIn"><a target="_blank" href="https://play.google.com/store/apps/details?id=com.arcbit.arcbit"><i class="fa fa-android"></i> {{'ArcBit Android'|_}}</a></li>
+
         <li ng-show="isLoggedIn"><a target="_blank" href="https://itunes.apple.com/app/arcbit-bitcoin-wallet/id999487888"><i class="fa fa-apple"></i> {{'ArcBit iOS'|_}}</a></li>
 
         <li ng-show="isLoggedIn" title="{{'Settings'|_}}" id="settings" ng-class="{active:isActive('/settings')}"><a href="#settings"><i class="icon-cog"></i> {{'Settings'|_}}</a></li>
