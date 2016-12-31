@@ -68,7 +68,7 @@
         <div ng-if="step==5" class="wizard">
             <form ng-submit="mnemonicSubmit()">
                 <h6 ng-show="form.create_or_restore=='create'">{{'To confirm you\'ve written down your backup passphrase correctly, please type it here:'|_}}</h6>
-                <h6 ng-show="form.create_or_restore=='restore'">{{'Write your mnemonic then click finish:'|_}}</h6>
+                <h6 ng-show="form.create_or_restore=='restore'">{{'Write your backup passphrase then click finish:'|_}}</h6>
                 <input type="text" placeholder="{{'Write the 12 words here...'|_}}" ng-model="form.mnemonic2" />
                 <p>{{message2}}</p>
                 <h6 ng-show="form.create_or_restore=='create'">{{'After you finish, please store the piece of paper in a safe place, and never type it on a computer unless you need to recover your lost wallet!'|_}}</h6>

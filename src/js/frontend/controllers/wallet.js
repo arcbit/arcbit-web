@@ -34,14 +34,14 @@ define(['./module', 'arcbit', 'frontend/port', 'model/TLExchangeRate', 'model/TL
                         var identity = ArcBit.getIdentity();
 
                         if (identity.appDelegate.preferences.showLogoutWarning()) {
-                            modals.promptForOKCancel(_('Logout Warning'), _('Password is required to log back in. By default your password is your 12 word mnemonic, which is found in settings.'), _('Logout'), null, function() {
+                            modals.promptForOKCancel(_('Logout Warning'), _('Password is required to log back in. By default your password is your 12 word backup passphrase, which is found in settings.'), _('Logout'), null, function() {
                                 identity.appDelegate.preferences.setShowLogoutWarning(false);
                                 $scope.logoutWallet();
                             });
                             return;
                         }
                         if (!identity.appDelegate.preferences.viewedMnemonic()) {
-                            modals.promptForOK(_("Warning"), _('ArcBit has detected that you have not yet viewed your 12 word mnemonic. First write down or memorize your 12 word mnemonic, which is found in settings.'), null);
+                            modals.promptForOK(_("Warning"), _('ArcBit has detected that you have not yet viewed your 12 word backup passphrase. First write down or memorize your 12 word backup passphrase, which is found in settings.'), null);
                             return;
                         }
 
@@ -349,7 +349,7 @@ define(['./module', 'arcbit', 'frontend/port', 'model/TLExchangeRate', 'model/TL
                         periodicUpdateExchangeRate();
                         if (!identity.appDelegate.preferences.viewedMnemonic()) {
                             $timeout(function(){
-                                notify.note(_('You have not yet viewed and backed up your 12 word mnemonic. You can view your mnemonic in settings.'));
+                                notify.note(_('You have not yet viewed and backed up your 12 word backup passphrase. You can view your backup passphrase in settings.'));
                                 if(!$scope.$$phase) {
                                     $scope.$apply();
                                 }

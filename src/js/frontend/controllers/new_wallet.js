@@ -92,13 +92,13 @@ define(['./module', 'arcbit', 'available_languages', 'model/TLHDWalletWrapper', 
             $scope.mnemonicSubmit = function() {
                 var walletService = ArcBit.service.wallet;
                 if (!TLHDWalletWrapper.phraseIsValid($scope.form.mnemonic2)) {
-                    notify.error(_('Invalid mnemonic'));
+                    notify.error(_('Invalid backup passphrase'));
                     return;
                 }
                 var userViewedMnemonic = false;
                 if (checkUserInputtedMnemonic) {
                     if ($scope.form.mnemonic != $scope.form.mnemonic2) {
-                        notify.error(_('Mnemonics are not the same'));
+                        notify.error(_('Backup passphrases are not the same'));
                         return;
                     }
                     userViewedMnemonic = true;
