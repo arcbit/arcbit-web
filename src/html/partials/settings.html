@@ -6,12 +6,14 @@
     <div class="panel">
       <h5>{{'Security'|_}}</h5>
       <div class="text-left">
-        <a ng-show="!advancedModeEnabled" class="fa fa-question" tooltip="{{'The seed alone can recover all your wallet account\'s bitcoins, so make sure to back it up and keep it safe.'|_}}"></a>
-        <a ng-show="advancedModeEnabled" class="fa fa-question" tooltip="{{'The seed alone can recover all your wallet account\'s bitcoins (excluding imported accounts and addresses), so make sure to back it up and keep it safe.'|_}}"></a>
+        <a ng-show="!advancedModeEnabled" class="fa fa-question" tooltip="{{'The backup passphrase alone can recover all your wallet account\'s bitcoins, so make sure to back it up and keep it safe.'|_}}"></a>
+        <a ng-show="advancedModeEnabled" class="fa fa-question" tooltip="{{'The backup passphrase alone can recover all your wallet account\'s bitcoins (excluding imported accounts and addresses), so make sure to back it up and keep it safe.'|_}}"></a>
       </div>
-      <button class="expand ng-animate-disabled" ng-show="!seedTool&&!passTool" ng-click="showSeed()">{{'Show seed'|_}}</button>
+      <button class="expand ng-animate-disabled" ng-show="!seedTool&&!passTool" ng-click="showSeed()">{{'Show backup passphrase'|_}}</button>
       <div ng-show="seedTool">
+        <label>{{'Backup passphrase'|_}}</label>
         <input type="text" ng-model="yourSeedWords" ng-show="yourSeed && !seedError">
+        <label ng-show="advancedModeEnabled">{{'Master seed hex'|_}}</label>
         <input ng-show="advancedModeEnabled" type="text" ng-model="yourSeedHex" ng-show="yourSeed && !seedError">
         <div ng-show="seedError">
           {{'Incorrect password'|_}}
@@ -31,7 +33,7 @@
         <button type="submit" class="small radius">{{'Change password'|_}}</button>
         <a class="small radius alert button" ng-click="passTool=false;">{{'Cancel'|_}}</a>
       </form>
-      <input id="checkbox-always-encrypt" ng-model="alwaysEncrypt" type="checkbox" ng-change="alwaysEncryptChanged()"><label for="checkbox-always-encrypt" tooltip="{{'Enabling this will always save your wallet in encrypted format. This means that your login password is required after you close your browser or the tab. By default your login password is your seed. It is recommended that this feature be enabled if you hold significant amount of Bitcoins in this wallet.'|_}}">{{'Always Encrypt'|_}}</label><br>
+      <input id="checkbox-always-encrypt" ng-model="alwaysEncrypt" type="checkbox" ng-change="alwaysEncryptChanged()"><label for="checkbox-always-encrypt" tooltip="{{'Enabling this will always save your wallet in encrypted format. This means that your login password is required after you close your browser or the tab. By default your login password is your backup passphrase. It is recommended that this feature be enabled if you hold significant amount of Bitcoins in this wallet.'|_}}">{{'Always Encrypt'|_}}</label><br>
 
     </div>
     <div class="panel">

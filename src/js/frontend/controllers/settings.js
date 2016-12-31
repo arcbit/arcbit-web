@@ -85,7 +85,7 @@ define(['./module', 'arcbit', 'available_languages',
             $scope.showPasswordChanged = function() {
                 $scope.passTool = true;
                 if (preferences.showChangePasswordWarning()) {
-                    modals.promptForOKCancel(_('Warning'), _('People generally don’t know how to create secure passwords. If you want to continue, make sure you learn how to create a secure password. Arcbit won’t have any restrictions on your password. By default your password is your 12 word mnemonic/seed.'),
+                    modals.promptForOKCancel(_('Warning'), _('People generally don’t know how to create secure passwords. If you want to continue, make sure you learn how to create a secure password. Arcbit won’t have any restrictions on your password. By default your password is your backup passphrase.'),
                         _('Continue'), null, function() {
                             preferences.setShowChangePasswordWarning(false);
                         }, function(){
@@ -156,7 +156,7 @@ define(['./module', 'arcbit', 'available_languages',
             $scope.alwaysEncryptChanged = function() {
                 if (!preferences.viewedMnemonic() && $scope.alwaysEncrypt) {
                     $scope.alwaysEncrypt = false;
-                    notify.warning(_('Before enabling this feature, first view and backup your seed'));
+                    notify.warning(_('Before enabling this feature, first view and backup your backup passphrase'));
                     return;
                 }
                 preferences.setAlwaysEncrypt($scope.alwaysEncrypt);
