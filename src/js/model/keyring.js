@@ -28,7 +28,7 @@ define(['model/identity', 'model/TLWalletJson', 'model/TLAppDelegate',
             } else if (this.availableIdentities.indexOf(name) != -1) {
                 this.load(name, callback);
             } else {
-                throw Error('Identity doesn\'t exist');
+                throw Error('Wallet doesn\'t exist');
             }
         };
 
@@ -74,7 +74,7 @@ define(['model/identity', 'model/TLWalletJson', 'model/TLAppDelegate',
         IdentityKeyRing.prototype.rename = function(name, newName, callback) {
             var self = this;
             if (!this.identities[name]) {
-                throw Error('Identity must be loaded to rename');
+                throw Error('Wallet must be loaded to rename');
             }
             var oldIdx = this.availableIdentities.indexOf(name);
             // First save under the new name
@@ -177,7 +177,7 @@ define(['model/identity', 'model/TLWalletJson', 'model/TLAppDelegate',
             } catch(e) {
                 // show the inner exception
                 console.log(e.stack);
-                throw Error('Critical error loading identity');
+                throw Error('Critical error loading wallet');
             }
             if (callback) {
                 callback(this.identities[name]);

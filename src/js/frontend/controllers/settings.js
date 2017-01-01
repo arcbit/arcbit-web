@@ -182,11 +182,11 @@ define(['./module', 'arcbit', 'available_languages',
             $scope.setIdentityName = function(newName) {
                 var keyRing = ArcBit.getKeyRing();
                 if (keyRing.availableIdentities.indexOf(newName) > -1) {
-                    notify.warning(_('You have another identity with that name!'));
+                    notify.warning(_('You have another wallet with that name!'));
                     return;
                 }
                 ArcBit.service.wallet.renameIdentity(newName, function() {
-                    notify.success(_('Identity renamed to {0}', newName));
+                    notify.success(_('Wallet renamed to {0}', newName));
                     if (!$scope.$$phase) {
                         $scope.$apply();
                     }

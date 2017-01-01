@@ -17,7 +17,7 @@ define(['./module', 'frontend/port', 'arcbit'], function (controllers, Port, Arc
         var deleteCurrentIdentity = function(identityName) {
             var identityIdx = $scope.availableIdentities.indexOf(identityName);
             if ($scope.availableIdentities.length == 1) {
-                notify.warning(_('Can\'t delete the last identity!'));
+                notify.warning(_('Can\'t delete the last wallet!'));
                 return;
             }
             var nextIdentity = identityIdx ? 0 : 1;
@@ -52,7 +52,7 @@ define(['./module', 'frontend/port', 'arcbit'], function (controllers, Port, Arc
 
         $scope.deleteIdentity = function(identityName) {
             if (identityName == ArcBit.getIdentity().appDelegate.walletName) {
-                notify.warning(_('Can\'t delete your current identity!'));
+                notify.warning(_('Can\'t delete your current wallet!'));
                 return;
             }
             var aa = _('Accept');
