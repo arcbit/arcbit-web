@@ -418,7 +418,7 @@
     "You can also input a backup passphrase, account private key or account public key and view the addresses and private keys of the inputted wallet or accounts.": "您也可以输入备份密码、账户私钥或者账户公钥并查看输入的钱包或者账户的地址和私钥。",
     "You can spend from a watch only account by importing the account private key before you spend, or you can use the ArcBit brain wallet tool to make a transaction without ever having your private keys touch a internet facing computer.": "通过提前导入账户私钥，您可以从一个监视账户中支付，或者您也可以通过使用ArcBit的脑钱包工具，在永远不必让您的私钥接触联入Internet的电脑的情况下完成交易。",
     "You have another wallet with that name!": "您有另一个钱包使用了这个名称！",
-    "You have no history in this pocket.": "目前还没有任何记录。",
+    "You have no history in this account.": "目前还没有任何记录。",
     "You have not yet viewed and backed up your 12 word backup passphrase. You can view your backup passphrase in settings.": "您尚未查看和备份您的12个单词的备份密码。您可以在设置中查看您的备份密码。",
     "Your camera is disabled": "您的摄像头被禁用了",
     "Zero": "零",

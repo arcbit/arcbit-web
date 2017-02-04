@@ -418,6 +418,7 @@
     "You can also input a backup passphrase, account private key or account public key and view the addresses and private keys of the inputted wallet or accounts.": "You can also input a backup passphrase, account private key or account public key and view the addresses and private keys of the inputted wallet or accounts.",
     "You can spend from a watch only account by importing the account private key before you spend, or you can use the ArcBit brain wallet tool to make a transaction without ever having your private keys touch a internet facing computer.": "You can spend from a watch only account by importing the account private key before you spend, or you can use the ArcBit brain wallet tool to make a transaction without ever having your private keys touch a internet facing computer.",
     "You have another wallet with that name!": "You have another wallet with that name!",
+    "You have no history in this account.": "You have no history in this account.",
     "You have not yet viewed and backed up your 12 word backup passphrase. You can view your backup passphrase in settings.": "You have not yet viewed and backed up your 12 word backup passphrase. You can view your backup passphrase in settings.",
     "Your camera is disabled": "Your camera is disabled",
     "Zero": "Zero",

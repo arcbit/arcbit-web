@@ -421,6 +421,7 @@
     "You can also input a backup passphrase, account private key or account public key and view the addresses and private keys of the inputted wallet or accounts.": "También puede introducir una regla palabra frase de contraseña, cuenta clave privada o cuenta de clave pública y ver las direcciones y las claves privadas de la cartera o cuentas introducida.",
     "You can spend from a watch only account by importing the account private key before you spend, or you can use the ArcBit brain wallet tool to make a transaction without ever having your private keys touch a internet facing computer.": "Puede pasar de un reloj sólo se cuenta con la importación de la clave privada cuenta antes de gastar, o puede utilizar la herramienta de la cartera cerebro Arcbit para realizar una transacción sin tener sus claves privadas tocan un equipo de cara a Internet.",
     "You have another wallet with that name!": "¡Ya tiene otra cartera con ese nombre!",
+    "You have no history in this account.": "No tienes historial en esta cuenta.",
     "You have not yet viewed and backed up your 12 word backup passphrase. You can view your backup passphrase in settings.": "Aún no se ha visto y copia de seguridad del 12 palabras frase de contraseña. Puede ver su palabra frase de contraseña en la configuración.",
     "Your camera is disabled": "Su cámara no está activada",
     "Zero": "Cero",
