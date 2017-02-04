@@ -353,7 +353,7 @@ define(['./module', 'arcbit', 'frontend/port', 'model/TLExchangeRate', 'model/TL
                                 if(!$scope.$$phase) {
                                     $scope.$apply();
                                 }
-                            }, 3000, false);
+                            }, 6000, false);
                         }
                     }
                     var identity = ArcBit.getIdentity();
