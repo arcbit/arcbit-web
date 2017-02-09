@@ -68,19 +68,7 @@ define(['./module', 'arcbit', 'frontend/port', 'model/TLWalletUtils'],
                                 }
                             }
                         } else if (amountType == TLWalletUtils.TLAccountTxType.RECEIVE) {
-                            var inputAddressToValueArray = txObject.getInputAddressToValueArray();
-                            for (var j = 0; j < inputAddressToValueArray.length; j++) {
-                                var dict = inputAddressToValueArray[j];
-                                var address = dict["addr"];
-                                if (address != null) {
-                                    if (accountObject.isAddressPartOfAccount(address)) {
-                                        address = address;
-                                    } else {
-                                        address = address;
-                                        break;
-                                    }
-                                }
-                            }
+                            address = "";
                         } else {
                             address = _("Intra account transfer");
                         }
