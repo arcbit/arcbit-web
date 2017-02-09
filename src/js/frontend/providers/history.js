@@ -126,7 +126,7 @@ define(['./module', 'arcbit', 'frontend/port', 'model/TLCoin', 'model/TLWalletUt
                     accountObject.getAccountData(function() {
                         identity.appDelegate.postEvent('wallet', {'type': 'EVENT_FINISH_FETCHING_BALANCE'});
                     }, function() {
-                        identity.appDelegate.postEvent('wallet', {'type': 'EVENT_FINISH_FETCHING_BALANCE'});
+                        identity.appDelegate.postEvent('wallet', {'type': 'ERROR_FETCHING_BALANCE'});
                     });
                     return;
                 }
@@ -146,7 +146,7 @@ define(['./module', 'arcbit', 'frontend/port', 'model/TLCoin', 'model/TLWalletUt
                     importedAddress.getSingleAddressData(function() {
                         identity.appDelegate.postEvent('wallet', {'type': 'EVENT_FINISH_FETCHING_BALANCE'});
                     }, function() {
-                        identity.appDelegate.postEvent('wallet', {'type': 'EVENT_FINISH_FETCHING_BALANCE'});
+                        identity.appDelegate.postEvent('wallet', {'type': 'ERROR_FETCHING_BALANCE'});
                     });
                 }
             };

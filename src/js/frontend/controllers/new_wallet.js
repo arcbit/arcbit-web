@@ -153,7 +153,7 @@ define(['./module', 'arcbit', 'available_languages', 'model/TLHDWalletWrapper', 
                         }, function() {
                             $animate.enabled(identity.appDelegate.preferences.getAnimation());
                             modals.cancel();
-                            notify.error(_('Error Restoring Wallet. Please Try again.'));
+                            notify.error(_('Error restoring Wallet. Please Try again.'));
                             if(!$scope.$$phase) {
                                 $scope.$apply();
                             }

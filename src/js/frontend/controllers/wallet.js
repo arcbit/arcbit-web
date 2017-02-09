@@ -105,6 +105,12 @@ define(['./module', 'arcbit', 'frontend/port', 'model/TLExchangeRate', 'model/TL
                             if(!$scope.$$phase) {
                                 $scope.$apply();
                             }
+                        } else if (data.type == 'ERROR_FETCHING_BALANCE') {
+                            notify.error(_('Error getting balance. Please try again.'));
+                            $scope.rotateLogo = 0;
+                            if(!$scope.$$phase) {
+                                $scope.$apply();
+                            }
                         } else if (data.type == 'EVENT_TOGGLED_ADVANCE_MODED') {
                             $scope.advancedModeEnabled = data.enabled;
                         }
@@ -219,12 +225,14 @@ define(['./module', 'arcbit', 'frontend/port', 'model/TLExchangeRate', 'model/TL
                             accountObject.getAccountData(function() {
                                 $scope.rotateLogo = 0;
                             }, function() {
+                                notify.error(_('Error getting balance. Please try again.'));
                                 $scope.rotateLogo = 0;
                             });
                         } else if (addressObject) {
                             addressObject.getSingleAddressData(function() {
                                 $scope.rotateLogo = 0;
                             }, function() {
+                                notify.error(_('Error getting balance. Please try again.'));
                                 $scope.rotateLogo = 0;
                             });
                         }
@@ -293,7 +301,7 @@ define(['./module', 'arcbit', 'frontend/port', 'model/TLExchangeRate', 'model/TL
                                     keyRing.globalSettings.save();
 
                                 }, function() {
-                                    notify.error(_('Error Restoring Wallet. Please Try again.'));
+                                    notify.error(_('Error restoring Wallet. Please Try again.'));
                                     if(!$scope.$$phase) {
                                         $scope.$apply();
                                     }
