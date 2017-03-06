@@ -44,6 +44,9 @@ define(['./module', 'arcbit', 'available_languages',
             $scope.selectedBlockExplorerURLIdx = preferences.getSelectedBlockExplorerURLIdx();
             $scope.selectedBlockExplorerURL = $scope.blockExplorerURLs[$scope.selectedBlockExplorerURLIdx];
 
+            $scope.enabledDynamicFees = preferences.enabledDynamicFee();
+            $scope.selectedDynamicFee = preferences.getDynamicFeeSetting();
+
             $scope.blockExplorerAPIChanged = function() {
                 notify.note(_('Close and reopen tab for block explorer service change to take affect'));
                 $scope.blockExplorerURLs = preferences.getBlockExplorerURLs($scope.selectedBlockExplorerAPI);
@@ -177,7 +180,14 @@ define(['./module', 'arcbit', 'available_languages',
                 ArcBit.getKeyRing().globalSettings.setLanguage($scope.selectedLanguage);
                 translateLocalCurrencies();
             };
-
+            $scope.enabledDynamicFeesChanged = function() {
+                $animate.enabled($scope.enabledDynamicFees);
+                preferences.setEnabledDynamicFee($scope.enabledDynamicFees);
+            };
+            $scope.selectedDynamicFeeChanged = function() {
+                var identity = ArcBit.getIdentity();
+                preferences.setDynamicFeeSetting($scope.selectedDynamicFee);
+            };
             // Identity settings
             $scope.setIdentityName = function(newName) {
                 var keyRing = ArcBit.getKeyRing();

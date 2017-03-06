@@ -1,7 +1,7 @@
 'use strict';
 
-define(['model/TLBlockExplorerAPI', 'model/TLCoin'],
-    function(TLBlockExplorerAPI, TLCoin) {
+define(['model/TLTxFeeAPI', 'model/TLBlockExplorerAPI', 'model/TLCoin'],
+    function(TLTxFeeAPI, TLBlockExplorerAPI, TLCoin) {
         var PREFERENCE_TRANSACTION_FEE = "tx_fee";
         var PREFERENCE_STEALTH_EXPLORER_URL = "stealth_explorer_url";
         var PREFERENCE_STEALTH_SERVER_PORT = "stealth_web_server_port";
@@ -21,6 +21,8 @@ define(['model/TLBlockExplorerAPI', 'model/TLCoin'],
         var PREFERENCE_LANGUAGE = "language";
         var PREFERENCE_ANIMATION = "animation";
         var PREFERENCE_ALWAYS_ENCRYPT = "always_encrypt";
+        var PREFERENCE_ENABLED_DYNAMIC_FEE = "enabled_dynamic_fee";
+        var PREFERENCE_DYNAMIC_FEE_OPTION = "dynamic_fee_option";
 
 
         function TLPreferences(appDelegate, preferencesDict, stealthServerConfig) {
@@ -273,6 +275,27 @@ define(['model/TLBlockExplorerAPI', 'model/TLCoin'],
 
         TLPreferences.prototype.setAlwaysEncrypt = function(value) {
             this.preferencesDict[PREFERENCE_ALWAYS_ENCRYPT] = value;
+            if (this.appDelegate) this.appDelegate.saveWalletPayloadDelay();
+        };
+
+        TLPreferences.prototype.enabledDynamicFee = function() {
+            return this.preferencesDict[PREFERENCE_ENABLED_DYNAMIC_FEE];
+        };
+
+        TLPreferences.prototype.setEnabledDynamicFee = function(value) {
+            this.preferencesDict[PREFERENCE_ENABLED_DYNAMIC_FEE] = value;
+            if (this.appDelegate) this.appDelegate.saveWalletPayloadDelay();
+        };
+
+        TLPreferences.prototype.getDynamicFeeSetting = function() {
+            if (this.preferencesDict[PREFERENCE_DYNAMIC_FEE_OPTION] == null) {
+                return TLTxFeeAPI.TLDynamicFeeSetting.FASTEST_FEE;
+            }
+            return this.preferencesDict[PREFERENCE_DYNAMIC_FEE_OPTION];
+        };
+
+        TLPreferences.prototype.setDynamicFeeSetting = function(value) {
+            this.preferencesDict[PREFERENCE_DYNAMIC_FEE_OPTION] = value;
             if (this.appDelegate) this.appDelegate.saveWalletPayloadDelay();
         };
 

@@ -103,6 +103,9 @@ define(['model/TLWalletJSONKeys', 'model/TLWallet', 'model/TLCoin', 'model/TLSte
         function TLAccountObject(appDelegate, appWallet, dict, accountType) {
             this.appDelegate = appDelegate;
             this.appWallet = null;
+            this.haveUpDatedUTXOs = false;
+            this.unspentOutputsCount = 0;
+            this.stealthPaymentUnspentOutputsCount = 0;
             this.lastFetchTime = 0;
             this.isFetchingTxs = false;
             this.unspentOutputs = [];
@@ -412,6 +415,7 @@ define(['model/TLWalletJSONKeys', 'model/TLWallet', 'model/TLCoin', 'model/TLSte
         };
 
         TLAccountObject.prototype.processTx = function(txObject, shouldCheckToAddressesNTxsCount, shouldUpdateAccountBalance, balanceAsOfTxid) {
+            this.haveUpDatedUTXOs = false;
             this.processedTxDict[txObject.getHash()] = true;
             var currentTxSubtract = 0;
             var currentTxAdd = 0;
@@ -1157,7 +1161,9 @@ define(['model/TLWalletJSONKeys', 'model/TLWallet', 'model/TLCoin', 'model/TLSte
             this.totalUnspentOutputsSum = null;
             this.stealthPaymentUnspentOutputs = [];
 
-
+            this.unspentOutputsCount = 0;
+            this.stealthPaymentUnspentOutputsCount = 0;
+            this.haveUpDatedUTXOs = false;
             var self = this;
             this.appDelegate.blockExplorerAPI.getUnspentOutputs(activeAddresses, function(jsonData) {
                 if (jsonData == null) {
@@ -1175,8 +1181,10 @@ define(['model/TLWalletJSONKeys', 'model/TLWallet', 'model/TLCoin', 'model/TLSte
                         TLBitcoinJSWrapper.getNetwork(self.appWallet.isTestnet()));
                     if (self.stealthWallet != null && self.stealthWallet.isPaymentAddress(address) == true) {
                         self.stealthPaymentUnspentOutputs.push(unspentOutputs[i]);
+                        self.stealthPaymentUnspentOutputsCount += 1;
                     } else {
                         self.unspentOutputs.push(unspentOutputs[i]);
+                        self.unspentOutputsCount += 1;
                     }
                 }
 
@@ -1192,6 +1200,7 @@ define(['model/TLWalletJSONKeys', 'model/TLWallet', 'model/TLCoin', 'model/TLSte
                 }
                 self.unspentOutputs.sort(compare);
                 self.stealthPaymentUnspentOutputs.sort(compare);
+                self.haveUpDatedUTXOs = true;
                 success();
             }, function(response) {
                 failure(response);

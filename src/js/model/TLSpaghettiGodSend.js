@@ -28,6 +28,15 @@ define(['model/TLCoin', 'model/TLBitcoinJSWrapper', 'model/TLWalletUtils', 'mode
             this.accountObject = accountObject;
         };
 
+        TLSpaghettiGodSend.prototype.haveUpDatedUTXOs = function() {
+            if (this.accountObject) {
+                return this.accountObject.haveUpDatedUTXOs;
+            } else if (this.addressObject) {
+                return this.addressObject.haveUpDatedUTXOs;
+            }
+            return false;
+        };
+
         TLSpaghettiGodSend.prototype.getStealthAddress = function() {
             if (this.accountObject && this.accountObject.stealthWallet) {
                 return this.accountObject.stealthWallet.getStealthAddress();
@@ -106,17 +115,24 @@ define(['model/TLCoin', 'model/TLBitcoinJSWrapper', 'model/TLWalletUtils', 'mode
             } else if (this.addressObject) {
                 var amount = this.addressObject.getBalance()
                 if (amount.greater(TLCoin.zero())) {
+                    this.addressObject.haveUpDatedUTXOs = false;
                     var self = this;
                     this.addressObject.appDelegate.blockExplorerAPI.getUnspentOutputs([this.addressObject.getAddress()], function(jsonData) {
                         if (jsonData != null) {
                             self.addressObject.setUnspentOutputs(jsonData["unspent_outputs"]);
                         }
+                        self.addressObject.unspentOutputsCount = jsonData["unspent_outputs"].length;
+                        self.addressObject.haveUpDatedUTXOs = true;
                         successCallback();
                     }, function() {
                         errorCallback();
                     });
                 }
             }
+        }
+
+        TLSpaghettiGodSend.prototype.getEstimatedTxSize = function(inputCount, outputCount) {
+            return 10 + 159*inputCount + 34*outputCount;
         }
 
         TLSpaghettiGodSend.prototype.createSignedSerializedTransactionHexWithStealthData = function(toAddressesAndAmounts, feeAmount,

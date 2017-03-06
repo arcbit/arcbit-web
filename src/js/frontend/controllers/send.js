@@ -1,9 +1,9 @@
 'use strict';
 
 define(['./module', 'frontend/port', 'arcbit', 'bitcoinjs-lib', 'model/TLStealthAddress', 'model/TLBlockExplorerAPI',
-        'model/TLCoin', 'model/TLWalletUtils', 'model/TLHDWalletWrapper', 'model/TLBitcoinJSWrapper'],
+        'model/TLCoin', 'model/TLWalletUtils', 'model/TLHDWalletWrapper', 'model/TLBitcoinJSWrapper', 'model/TLTxFeeAPI'],
     function (controllers, Port, ArcBit, Bitcoin, TLStealthAddress, TLBlockExplorerAPI, TLCoin,
-              TLWalletUtils, TLHDWalletWrapper, TLBitcoinJSWrapper) {
+              TLWalletUtils, TLHDWalletWrapper, TLBitcoinJSWrapper, TLTxFeeAPI) {
         controllers.controller('WalletSendCtrl', ['$scope', '$window', 'notify', 'modals', '$animate', '$timeout', '$history', '$tabs', 'sounds', '_Filter',
             function($scope, $window, notify, modals, $animate, $timeout, $history, $tabs, sounds, _) {
 
@@ -15,16 +15,109 @@ define(['./module', 'frontend/port', 'arcbit', 'bitcoinjs-lib', 'model/TLStealth
                 var toStealthAddress = null;
                 var toAddressesAndAmount = null;
 
+                // If shouldUpdateFieldWithRestOfFunds is true then parameter field and FieldIdx will exist otherwise is null. This is not very clean, should fixup
+                var checkToFetchUTXOsAndDynamicFeesAndUpdateFeeAmountField = function(successCallback, failureCallback) {
+                    setFromPocket();
+                    if (identity.appDelegate.preferences.enabledDynamicFee()) {
+                        if (!identity.appDelegate.godSend.haveUpDatedUTXOs()) {
+                            identity.appDelegate.godSend.getAndSetUnspentOutputs(function() {
+                               checkToFetchDynamicFeesAndUpdateFeeAmountField(successCallback, failureCallback);
+                            }, function() {
+                                //notify.error(_("TLDisplayStrings.ERROR_FETCHING_UNSPENT_OUTPUTS_TRY_AGAIN_LATER_STRING"));
+                                failureCallback ? failureCallback() : null;
+                            });
+                        } else {
+                            checkToFetchDynamicFeesAndUpdateFeeAmountField(successCallback, failureCallback);
+                        }
+                    } else {
+                        updateFeeAmountField(false, successCallback, failureCallback);
+                    }
+                };
+
+                var checkToFetchDynamicFeesAndUpdateFeeAmountField = function(successCallback, failureCallback) {
+                    if (!identity.appDelegate.txFeeAPI.haveUpdatedCachedDynamicFees()) {
+                        identity.appDelegate.txFeeAPI.getDynamicTxFee(function(jsonData) {
+                            updateFeeAmountField(true, successCallback, failureCallback)
+                        }, function() {
+                            //notify.error(_("TLDisplayStrings.UNABLE_TO_QUERY_DYNAMIC_FEES_STRING"));
+                            updateFeeAmountField(false, successCallback, failureCallback)
+                        });
+                    } else {
+                        updateFeeAmountField(true, successCallback, failureCallback)
+                    }
+                };
+
+                var updateFeeAmountField = function(useDynamicFees, successCallback, failureCallback) {
+                    var fee;
+                    if (useDynamicFees) {
+                        var accountIdx = $tabs.pocketId;
+                        var accountObject = null;
+                        var addressObject = null;
+                        if ($tabs.pocketType == TLWalletUtils.TLSelectedAccountType.HD_WALLET) {
+                            accountObject = identity.appDelegate.accounts.getAccountObjectForIdx(accountIdx);
+                        } else if ($tabs.pocketType == TLWalletUtils.TLSelectedAccountType.IMPORTED_ACCOUNT) {
+                            accountObject = identity.appDelegate.importedAccounts.getAccountObjectForIdx(accountIdx);
+                        } else if ($tabs.pocketType == TLWalletUtils.TLSelectedAccountType.IMPORTED_WATCH_ACCOUNT) {
+                            accountObject = identity.appDelegate.importedWatchAccounts.getAccountObjectForIdx(accountIdx);
+                        } else if ($tabs.pocketType == TLWalletUtils.TLSelectedAccountType.IMPORTED_ADDRESS) {
+                            addressObject = identity.appDelegate.importedAddresses.getAddressObjectAtIdx(accountIdx);
+                        } else if ($tabs.pocketType == TLWalletUtils.TLSelectedAccountType.IMPORTED_WATCH_ADDRESS) {
+                            addressObject = identity.appDelegate.importedWatchAddresses.getAddressObjectAtIdx(accountIdx);
+                        }
+
+                        var dynamicFeeSatoshis = identity.appDelegate.txFeeAPI.getCachedDynamicFee()
+                        if (dynamicFeeSatoshis != null) {
+                            var txSizeBytes;
+                            if (accountObject) {
+                                var inputCount = accountObject.stealthPaymentUnspentOutputsCount + accountObject.unspentOutputsCount;
+                                txSizeBytes = identity.appDelegate.godSend.getEstimatedTxSize(inputCount, $scope.quicksend.fields.length);
+                            } else if (addressObject) {
+                                txSizeBytes = identity.appDelegate.godSend.getEstimatedTxSize(addressObject.unspentOutputsCount, $scope.quicksend.fields.length);
+                            } else {
+                                return; //should not happen
+                            }
+                            fee = new TLCoin(txSizeBytes*dynamicFeeSatoshis);
+                        } else {
+                            fee = new TLCoin(identity.appDelegate.preferences.getTransactionFee());
+                        }
+                    } else {
+                        fee = new TLCoin(identity.appDelegate.preferences.getTransactionFee());
+                    }
+                    $scope.quicksend.bitcoinFeeAmount = identity.appDelegate.currencyFormat.coinToProperBitcoinAmountString(fee);
+                    $scope.updateFiatFeeAmount();
+                    if (!$scope.$$phase) {
+                        $scope.$apply();
+                    }
+                    successCallback ? successCallback() : null;
+                };
+
+                var preFetchUTXOsAndDynamicFees = function(useDynamicFees) {
+                    if (identity.appDelegate.preferences.enabledDynamicFee()) {
+                        if (!identity.appDelegate.txFeeAPI.haveUpdatedCachedDynamicFees()) {
+                            identity.appDelegate.txFeeAPI.getDynamicTxFee(function(jsonData) {
+                            }, function() {
+                            });
+                        }
+                        if (!identity.appDelegate.godSend.haveUpDatedUTXOs()) {
+                            identity.appDelegate.godSend.getAndSetUnspentOutputs(function() {
+                            }, function() {
+                            });
+                        }
+                    }
+                };
+
                 $scope.saveToAddress = function(address, idx) {
                     identity.appDelegate.sendFormsData[idx].address = address;
                 };
                 $scope.updateFiatAmount = function(field, idx) {
                     field.fiatAmount = identity.appDelegate.currencyFormat.properBitcoinStringToFiatString(field.bitcoinAmount);
                     identity.appDelegate.sendFormsData[idx].amount = field.bitcoinAmount;
+                    preFetchUTXOsAndDynamicFees();
                 };
                 $scope.updateBitcoinAmount = function(field, idx) {
                     field.bitcoinAmount = identity.appDelegate.currencyFormat.fiatStringToProperBitcoinString(field.fiatAmount);
                     identity.appDelegate.sendFormsData[idx].amount = field.bitcoinAmount;
+                    preFetchUTXOsAndDynamicFees();
                 };
                 $scope.updateFiatFeeAmount = function() {
                     $scope.quicksend.fiatFeeAmount = identity.appDelegate.currencyFormat.properBitcoinStringToFiatString($scope.quicksend.bitcoinFeeAmount);
@@ -51,11 +144,13 @@ define(['./module', 'frontend/port', 'arcbit', 'bitcoinjs-lib', 'model/TLStealth
                 $scope.addRecipient = function() {
                     $scope.quicksend.fields.push({fiatAmount:null, bitcoinAmount:null, address:null});
                     identity.appDelegate.sendFormsData.push({address: null, amount: null});
+                    checkToFetchUTXOsAndDynamicFeesAndUpdateFeeAmountField();
                 };
 
                 $scope.removeRecipient = function(idx) {
                     $scope.quicksend.fields.splice(idx, 1);
                     identity.appDelegate.sendFormsData.splice(idx, 1);
+                    checkToFetchUTXOsAndDynamicFeesAndUpdateFeeAmountField();
                 };
 
                 $scope.removeAllRecipient = function() {
@@ -63,7 +158,7 @@ define(['./module', 'frontend/port', 'arcbit', 'bitcoinjs-lib', 'model/TLStealth
                     identity.appDelegate.sendFormsData = [{address: null, amount: null}];
                 };
 
-                $scope.useAllFunds = function(field, idx) {
+                var updateFieldWithRestOfFunds = function(field, idx) {
                     var leftBalance = $history.getSelectedAccountBalance();
                     var currencyFormat = identity.appDelegate.currencyFormat;
 
@@ -94,11 +189,30 @@ define(['./module', 'frontend/port', 'arcbit', 'bitcoinjs-lib', 'model/TLStealth
                     $scope.updateFiatAmount(field, idx);
                 };
 
+                $scope.useAllFunds = function(field, idx) {
+                    checkToFetchUTXOsAndDynamicFeesAndUpdateFeeAmountField(function() {
+                        updateFieldWithRestOfFunds(field, idx);
+                        if(!$scope.$$phase) {
+                            $scope.$apply();
+                        }
+                    }, function() {
+                        updateFieldWithRestOfFunds(field, idx);
+                        if(!$scope.$$phase) {
+                            $scope.$apply();
+                        }
+                    });
+                };
+
                 $scope.pickContact = function(field, idx) {
                     modals.open('pick-contact', {type: 'address'}, function(addr) {
                         field.address = addr;
                         identity.appDelegate.sendFormsData[idx].address = addr;
                     });
+                };
+
+                $scope.clickedShowFee = function() {
+                    $scope.quicksend.showFee =! $scope.quicksend.showFee;
+                    checkToFetchUTXOsAndDynamicFeesAndUpdateFeeAmountField();
                 };
 
                 $scope.getAddressFromQRCode = function(field, idx) {
@@ -239,7 +353,7 @@ define(['./module', 'frontend/port', 'arcbit', 'bitcoinjs-lib', 'model/TLStealth
                     }, 30, false);
                 };
 
-                var showFinalPromptReviewTx = function(feeAmount) {
+                var showFinalPromptReviewTx = function() {
                     var haveInvalidAddress = false;
                     for (var i = 0; i < $scope.quicksend.fields.length; i++) {
                         if ($scope.quicksend.fields[i].address == null
@@ -252,6 +366,7 @@ define(['./module', 'frontend/port', 'arcbit', 'bitcoinjs-lib', 'model/TLStealth
                         notify.warning(_('Invalid address'));
                         return;
                     }
+                    var feeAmount = identity.appDelegate.currencyFormat.properBitcoinAmountStringToCoin($scope.quicksend.bitcoinFeeAmount);
                     if (feeAmount == null) {
                         notify.warning(_('Missing fee amount'));
                         return;
@@ -324,9 +439,12 @@ define(['./module', 'frontend/port', 'arcbit', 'bitcoinjs-lib', 'model/TLStealth
                             transactionHash = null;
                         }
                     });
+                    if(!$scope.$$phase) {
+                        $scope.$apply();
+                    }
                 };
 
-                var handleTemporaryImportPrivateKey = function(privKey, feeAmount) {
+                var handleTemporaryImportPrivateKey = function(privKey) {
                     if (!TLBitcoinJSWrapper.isBIP38EncryptedKey(privKey) && !TLBitcoinJSWrapper.isValidPrivateKey(privKey)) {
                         notify.error(_('Invalid Private Key'));
                     } else {
@@ -356,7 +474,7 @@ define(['./module', 'frontend/port', 'arcbit', 'bitcoinjs-lib', 'model/TLStealth
                             if(!$scope.$$phase) {
                                 $scope.$apply();
                             }
-                            handleTemporaryImportPrivateKey(decryptedKey, feeAmount);
+                            handleTemporaryImportPrivateKey(decryptedKey);
                         }, function() {
                             $animate.enabled(identity.appDelegate.preferences.getAnimation());
                             modals.cancel();
@@ -379,20 +497,19 @@ define(['./module', 'frontend/port', 'arcbit', 'bitcoinjs-lib', 'model/TLStealth
                     }, 30, false);
                 }
 
-                var showPromptReviewTx = function(feeAmount) {
-
+                var showPromptReviewTx = function() {
                     var accountIdx = $tabs.pocketId;
                     var identity = ArcBit.getIdentity();
                     if (identity.appDelegate.godSend.needWatchOnlyAccountPrivateKey()) {
                         modals.promptForInput(_("Account private key missing"), _("Do you want to temporary import your account private key? Alternatively you can authorize this transaction offline by using ArcBit's brain wallet tool."), "xprv...", function(input) {
                             if (!TLHDWalletWrapper.isValidExtendedPrivateKey(input, TLBitcoinJSWrapper.getNetwork(identity.appDelegate.appWallet.isTestnet()))) {
                                 notify.warning(_('Invalid account private key'));
-                                showPromptReviewTx(feeAmount);
+                                showPromptReviewTx();
                             } else {
                                 var success = identity.appDelegate.godSend.accountObject.setExtendedPrivateKeyInMemory(input);
                                 if (!success) {
                                     notify.warning(_('Account private key does not match imported account public key'));
-                                    showPromptReviewTx(feeAmount);
+                                    showPromptReviewTx();
                                 } else {
                                     $history.pocket.hasTmpAccountKey = identity.appDelegate.godSend.accountObject.hasSetExtendedPrivateKeyInMemory();
                                     notify.success(_('Imported'));
@@ -401,7 +518,7 @@ define(['./module', 'frontend/port', 'arcbit', 'bitcoinjs-lib', 'model/TLStealth
                         });
                     } else if (identity.appDelegate.godSend.needWatchOnlyAddressPrivateKey()) {
                         modals.promptForInput(_("Private key missing"), _("Do you want to temporary import your private key?"), _("Input private key..."), function(privKey) {
-                            handleTemporaryImportPrivateKey(privKey, feeAmount);
+                            handleTemporaryImportPrivateKey(privKey);
                         });
                     } else if (identity.appDelegate.godSend.needEncryptedPrivateKeyPassword()) {
 
@@ -410,7 +527,7 @@ define(['./module', 'frontend/port', 'arcbit', 'bitcoinjs-lib', 'model/TLStealth
                             handleIsBIP38EncryptedKey(encryptedPrivateKey, password);
                         });
                     } else {
-                        showFinalPromptReviewTx(feeAmount);
+                        showFinalPromptReviewTx();
                     }
                 };
 
@@ -446,7 +563,6 @@ define(['./module', 'frontend/port', 'arcbit', 'bitcoinjs-lib', 'model/TLStealth
                         return;
                     }
 
-                    var feeAmount = identity.appDelegate.currencyFormat.properBitcoinAmountStringToCoin($scope.quicksend.bitcoinFeeAmount);
                     if (stealthAddressCount > 0 && preferences.enabledShowStealthPaymentDelay() &&
                         preferences.getSelectedBlockExplorerAPI() == TLBlockExplorerAPI.TLBlockExplorer.BLOCKCHAIN) {
                         modals.promptForOK(_("Warning"), _('Sending payment to a reusable address might take longer to show up then a normal transaction with the blockchain.info API. You might have to wait until at least 1 confirmation for the transaction to show up. This is due to the limitations of the blockchain.info API. For reusable address payments to show up faster, configure your app to use the Insight API in advance settings.'), null, function() {
@@ -454,7 +570,16 @@ define(['./module', 'frontend/port', 'arcbit', 'bitcoinjs-lib', 'model/TLStealth
                         });
                         return;
                     }
-                    showPromptReviewTx(feeAmount);
+                    // if fee amount is displayed, that value overrides all other settings on review payment
+                    if ($scope.quicksend.showFee) {
+                        showPromptReviewTx();
+                    } else {
+                        checkToFetchUTXOsAndDynamicFeesAndUpdateFeeAmountField(function() {
+                           showPromptReviewTx();
+                        }, function() {
+                           showPromptReviewTx();
+                        });
+                    }
                 };
 
                 Port.connectNg('wallet', $scope, function(data) {
@@ -482,7 +607,5 @@ define(['./module', 'frontend/port', 'arcbit', 'bitcoinjs-lib', 'model/TLStealth
                         }
                     }
                 });
-
-
             }]);
     });
