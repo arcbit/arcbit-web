@@ -44,7 +44,7 @@
       <a class="button postfix nomarginbottom" ng-click="reviewPayment()">{{'Review Payment'|_}}</a>
     </div>
     <div class="row collapse topmargin">
-      <a class="fa fa-tag" ng-click="quicksend.showFee=!quicksend.showFee" tooltip="{{'Change default transaction fee'|_}}"></a>
+      <a class="fa fa-tag" ng-click="clickedShowFee()" tooltip="{{'Change default transaction fee'|_}}"></a>
     </div>
     <div class="row collapse" ng-show="quicksend.showFee">
       <h5>{{'Fee Amount'|_}}</h5>

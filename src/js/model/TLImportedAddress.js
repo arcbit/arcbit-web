@@ -4,6 +4,8 @@ define(['model/TLCoin', 'model/TLWalletJSONKeys', 'model/TLBitcoinJSWrapper', 'm
     function(TLCoin, TLWalletJSONKeys, TLBitcoinJSWrapper, TLTxObject, TLWalletUtils) {
 
         function TLImportedAddress(appDelegate, dict) {
+            this.haveUpDatedUTXOs = false;
+            this.unspentOutputsCount = 0;
             this.unspentOutputsSum = null;
             this.positionInWalletArray = 0;
             this.txObjectArray = [];
@@ -211,6 +213,7 @@ define(['model/TLCoin', 'model/TLWalletJSONKeys', 'model/TLBitcoinJSWrapper', 'm
         };
 
         TLImportedAddress.prototype.processTx = function(txObject, shouldUpdateAccountBalance, balanceAsOfTxid) {
+            this.haveUpDatedUTXOs = false;
             this.processedTxDict[txObject.getHash()] = true;
             var currentTxSubtract = 0;
             var currentTxAdd = 0;

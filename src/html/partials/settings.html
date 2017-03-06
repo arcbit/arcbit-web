@@ -97,8 +97,24 @@
       <input type="radio" name="baseunit" value="BTC" id="btc-radio" ng-change="currencyChanged()" ng-model="selectedCurrency"><label for="btc-radio">BTC</label>
       <input type="radio" name="baseunit" value="mBTC" id="mbtc-radio" ng-change="currencyChanged()" ng-model="selectedCurrency"><label for="mbtc-radio">mBTC</label>
       <input type="radio" name="baseunit" value="bits" id="bits-radio" ng-change="currencyChanged()" ng-model="selectedCurrency"><label for="bits-radio">bits</label>
-      <h5>{{'Default fee'|_}}</h5>
-      <input ng-model="defaultFee" ng-change="defaultFeeChanged()" type="text"/>
+      <h5>{{'Fee setting'|_}}</h5>
+      <input id="checkbox-dynamic-fees" ng-model="enabledDynamicFees" type="checkbox" ng-change="enabledDynamicFeesChanged()"><label for="checkbox-dynamic-fees">{{'Enable dynamic fees'|_}}</label><br>
+      <div ng-show="enabledDynamicFees">
+        <h5>{{'Confirmation time setting'|_}}</h5>
+        <div>
+        <input type="radio" name="selectedDynamicFeeOption" value="fastestFee" id="fastestfee-radio" ng-change="selectedDynamicFeeChanged()" ng-model="selectedDynamicFee"><label for="fastestfee-radio">{{'Average 15 minute'|_}}</label>
+        </div>
+        <div>
+        <input type="radio" name="selectedDynamicFeeOption" value="halfHourFee" id="halfhourfee-radio" ng-change="selectedDynamicFeeChanged()" ng-model="selectedDynamicFee"><label for="halfhourfee-radio">{{'Average 30 minute'|_}}</label>
+        </div>
+        <div>
+        <input type="radio" name="selectedDynamicFeeOption" value="hourFee" id="hourfee-radio" ng-change="selectedDynamicFeeChanged()" ng-model="selectedDynamicFee"><label for="hourfee-radio">{{'Average 60 minute'|_}}</label>
+        </div>
+      </div>
+      <div ng-show="!enabledDynamicFees">
+        <h5>{{'Default fee'|_}}</h5>
+        <input ng-model="defaultFee" ng-change="defaultFeeChanged()" type="text"/>
+      </div>
     </div>
     <div class="panel">
       <h5>{{'Local currency'|_}}</h5>

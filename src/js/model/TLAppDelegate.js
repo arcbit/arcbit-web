@@ -3,10 +3,10 @@
 define(['arcbit', 'backend/port', 'model/TLPreferences', 'model/TLStealthServerConfig', 'model/TLBlockExplorerAPI', 'model/TLStealthExplorerAPI',
         'model/TLWallet', 'model/TLWalletUtils', 'model/TLHDWalletWrapper', 'model/TLAccounts', 'model/TLStealthWebSocket',
         'model/TLWalletJson', 'model/TLWalletJSONKeys', 'model/TLBlockchainStatus', 'model/TLImportedAddresses', 'model/TLCurrencyFormat',
-        'model/TLSpaghettiGodSend', 'model/TLPushTxAPI', 'model/TLTxObject', 'model/TLContacts', 'model/TLUtils', 'angular'],
+        'model/TLSpaghettiGodSend', 'model/TLPushTxAPI', 'model/TLTxObject', 'model/TLContacts', 'model/TLUtils', 'model/TLTxFeeAPI', 'angular'],
     function(ArcBit, Port, TLPreferences, TLStealthServerConfig, TLBlockExplorerAPI, TLStealthExplorerAPI, TLWallet,
              TLWalletUtils, TLHDWalletWrapper, TLAccounts, TLStealthWebSocket, TLWalletJson, TLWalletJSONKeys, TLBlockchainStatus,
-             TLImportedAddresses, TLCurrencyFormat, TLSpaghettiGodSend, TLPushTxAPI, TLTxObject, TLContacts, TLUtils, angular) {
+             TLImportedAddresses, TLCurrencyFormat, TLSpaghettiGodSend, TLPushTxAPI, TLTxObject, TLContacts, TLUtils, TLTxFeeAPI, angular) {
 
         var MAX_CONSECUTIVE_FAILED_STEALTH_CHALLENGE_COUNT = 8;
         var RESPOND_TO_STEALTH_PAYMENT_GET_TX_TRIES_MAX_TRIES = 3;
@@ -177,6 +177,9 @@ define(['arcbit', 'backend/port', 'model/TLPreferences', 'model/TLStealthServerC
             this.preferences.resetStealthWebSocketPort();
             this.preferences.setAnimation(true);
 
+            this.preferences.setEnabledDynamicFee(true);
+            this.preferences.setDynamicFeeSetting(TLTxFeeAPI.TLDynamicFeeSetting.FASTEST_FEE);
+
             var globalCurrency = ArcBit.getKeyRing().globalSettings.getCurrency();
             if (globalCurrency) {
                 this.preferences.setCurrency(globalCurrency);
@@ -258,6 +261,7 @@ define(['arcbit', 'backend/port', 'model/TLPreferences', 'model/TLStealthServerC
             this.stealthWebSocket = new TLStealthWebSocket(this);
             this.currencyFormat = new TLCurrencyFormat(this.exchangeRate, this.preferences);
             this.pushTxAPI = new TLPushTxAPI(this, isTestnet);
+            this.txFeeAPI = new TLTxFeeAPI(this.preferences);
             this.walletDecrypted = true;
             this.loginPassword = loginPassword;
             this.contacts = new TLContacts(this);
