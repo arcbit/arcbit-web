@@ -378,7 +378,7 @@
     "To": "到",
     "To addresses(s)": "到地址",
     "To create a cold storage wallet first download ArcBit's Brain Wallet tool in the following linked here,": "要創建一個冷錢包，首先從這個連結下載ArcBit的腦錢包工具：",
-    "To create a new cold storage, click 'New Wallet' to create a unique 12 word backup passphrase. Then back up the generated backup passphrase by paper or memory and keep it to yourself. The backup passphrase iself can recover all your bitcoins.": "要創建新的冷錢包，點擊“新建錢包”生成獨特的12單詞備份密碼。然後用紙張或存儲裝置備份該備份密碼並妥善保管。僅憑備份密碼就可以恢復所有的比特幣。",
+    "To create a new cold storage, click 'New Wallet' to create a unique 12 word backup passphrase. Then back up the generated backup passphrase by paper or memory and keep it to yourself. The backup passphrase itself can recover all your bitcoins.": "要創建新的冷錢包，點擊“新建錢包”生成獨特的12單詞備份密碼。然後用紙張或存儲裝置備份該備份密碼並妥善保管。僅憑備份密碼就可以恢復所有的比特幣。",
     "To confirm you've written down your backup passphrase correctly, please type it here:": "要確認您已正確記下備份密碼，請在此處鍵入:",
     "Tools": "工具",
     "Transaction": "交易",

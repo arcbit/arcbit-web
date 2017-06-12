@@ -5,14 +5,18 @@ define(function() {
         {"name": "English (US)", "code": "en_US"},
         {"name": "简体中文", "code": "zh_CN"},
         {"name": "繁体中文", "code": "tw_CN"},
-        {"name": "Español (España)", "code": "es_ES"}
+        {"name": "Español", "code": "es_ES"},
+        {"name": "русский", "code": "ru_RU"},
+        {"name": "Deutsche", "code": "de_DE"}
     ];
     
     var fallbacks = {
         "en": "en_US",
         "zh": "zh_CN",
         "tw": "tw_CN",
-        "es": "es_ES"
+        "es": "es_ES",
+        "ru": "ru_RU",
+        "de": "de_DE"
     };
     
     Object.defineProperty(lang, 'preferedLanguage', {

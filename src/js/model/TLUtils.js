@@ -17,6 +17,10 @@ define([],
                 return "tw_CN";
             } else if (uiLanguage == "es") {
                 return "es_ES";
+            } else if (uiLanguage == "ru") {
+                return "ru_RU";
+            } else if (uiLanguage == "de") {
+                return "de_DE";
             }
             return "en_US";
         };
