@@ -1,5 +1,5 @@
 {
-    "1 confirmation": "1 confirmacion",
+    "1 confirmation": "1 confirmation",
     "1) You can enable advanced mode in ArcBit's wallet and import your account public key as an watch only account, then go to the actions sections and click 'Get Unspent Outputs'. This method is recommended.": "1) You can enable advanced mode in ArcBit's wallet and import your account public key as an watch only account, then go to the actions sections and click 'Get Unspent Outputs'. This method is recommended.",
     "1) You can enable advanced mode in ArcBit's wallet and import your account public key (that was generated in step 1) as an watch only account. This method is recommended.": "1) You can enable advanced mode in ArcBit's wallet and import your account public key (that was generated in step 1) as an watch only account. This method is recommended.",
     "2) You can use Arcbit's Brain Wallet tool to generate your addresses manually back in step 1. The drawback is that you have to keep track of which addresses to receive bitcoins into. (This method can be done offline)": "2) You can use Arcbit's Brain Wallet tool to generate your addresses manually back in step 1. The drawback is that you have to keep track of which addresses to receive bitcoins into. (This method can be done offline)",
