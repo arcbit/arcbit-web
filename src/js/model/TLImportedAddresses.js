@@ -108,7 +108,7 @@ define(['angular', 'model/TLCoin', 'model/TLWalletJSONKeys', 'model/TLBitcoinJSW
             var importedPrivateKeyDict = this.appWallet.addImportedPrivateKey(privateKey, encryptedPrivateKey);
             var importedAddressObject = new TLImportedAddress(this.appDelegate, importedPrivateKeyDict);
             this.importedAddresses.push(importedAddressObject);
-            importedAddressObject.setPositionInWalletArray(this.importedAddresses.length - 1);
+            importedAddressObject.setPositionInWalletArray(this.importedAddresses.length + this.archivedImportedAddresses.length - 1);
             this.addressToPositionInWalletArrayDict[importedAddressObject.getPositionInWalletArray()] = importedAddressObject;
             var address = TLBitcoinJSWrapper.getAddress(privateKey, this.appWallet.isTestnet());
             var indexes = this.addressToIdxDict[address];
@@ -117,7 +117,7 @@ define(['angular', 'model/TLCoin', 'model/TLWalletJSONKeys', 'model/TLBitcoinJSW
                 this.addressToIdxDict[importedAddressObject.getAddress()] = indexes;
             }
             indexes.push(this.importedAddresses.length-1);
-            this.setLabel(importedAddressObject.getDefaultAddressLabel(), this.importedAddresses.length-1);
+            this.setLabel(importedAddressObject.getDefaultAddressLabel(), importedAddressObject.getPositionInWalletArray());
             return importedAddressObject;
         };
 
@@ -125,7 +125,7 @@ define(['angular', 'model/TLCoin', 'model/TLWalletJSONKeys', 'model/TLBitcoinJSW
             var importedDict = this.appWallet.addWatchOnlyAddress(address);
             var importedAddressObject = new TLImportedAddress(this.appDelegate, importedDict);
             this.importedAddresses.push(importedAddressObject);
-            importedAddressObject.setPositionInWalletArray(this.importedAddresses.length - 1);
+            importedAddressObject.setPositionInWalletArray(this.importedAddresses.length + this.archivedImportedAddresses.length - 1);
             this.addressToPositionInWalletArrayDict[importedAddressObject.getPositionInWalletArray()] = importedAddressObject;
             var indexes = this.addressToIdxDict[address];
             if (indexes == null) {
@@ -133,7 +133,7 @@ define(['angular', 'model/TLCoin', 'model/TLWalletJSONKeys', 'model/TLBitcoinJSW
                 this.addressToIdxDict[address] = indexes;
             }
             indexes.push(this.importedAddresses.length-1);
-            this.setLabel(importedAddressObject.getDefaultAddressLabel(), this.importedAddresses.length-1);
+            this.setLabel(importedAddressObject.getDefaultAddressLabel(), importedAddressObject.getPositionInWalletArray());
             return importedAddressObject;
         };
 
