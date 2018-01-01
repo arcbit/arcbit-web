@@ -23,7 +23,7 @@
 				<dt>{{'Filter'|_}}:</dt>
 				<dd ng-class="{active: 'activeMain'===addrFilter}"><a ng-click="setAddressFilter('activeMain')">{{'Active Main'|_}}</a></dd>
 				<dd ng-class="{active: 'activeChange'===addrFilter}"><a ng-click="setAddressFilter('activeChange')">{{'Active Change'|_}}</a></dd>
-				<dd ng-class="{active: 'stealthPayment'===addrFilter}"><a ng-click="setAddressFilter('stealthPayment')">{{'Stealth Payment'|_}}</a></dd>
+				<dd ng-show="enableStealthAddress" ng-class="{active: 'stealthPayment'===addrFilter}"><a ng-click="setAddressFilter('stealthPayment')">{{'Stealth Payment'|_}}</a></dd>
 				<dd ng-class="{active: 'archivedMain'===addrFilter}"><a ng-click="setAddressFilter('archivedMain')">{{'Archived Main'|_}}</a></dd>
 				<dd ng-class="{active: 'archivedChange'===addrFilter}"><a ng-click="setAddressFilter('archivedChange')">{{'Archived Change'|_}}</a></dd>
 			</dl>

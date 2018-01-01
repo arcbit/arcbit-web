@@ -7,6 +7,8 @@ define(['model/TLBitcoinJSWrapper', 'model/TLCoin'],
         TLWalletUtils.MAX_FEE_AMOUNT = 1000000;
 
         TLWalletUtils.SHOULD_SAVE_ARCHIVED_ADDRESSES_IN_JSON = false;
+        TLWalletUtils.ENABLE_STEALTH_ADDRESS = false;
+        TLWalletUtils.ALLOW_MANUAL_SCAN_FOR_STEALTH_PAYMENT = true;
 
         TLWalletUtils.TLSelectedAccountType = {
             HD_WALLET : 'hd',

@@ -167,7 +167,7 @@ define(['model/TLWalletJSONKeys', 'model/TLWallet', 'model/TLCoin', 'model/TLSte
                 //set later in accounts
             }
 //*
-            if (accountType != TLWalletUtils.TLAccountType.IMPORTED_WATCH) {
+            if (TLWalletUtils.ALLOW_MANUAL_SCAN_FOR_STEALTH_PAYMENT && accountType != TLWalletUtils.TLAccountType.IMPORTED_WATCH) {
                 var stealthAddressArray = this.accountDict[TLWalletJSONKeys.WALLET_PAYLOAD_KEY_STEALTH_ADDRESSES];
                 var stealthWalletDict = stealthAddressArray[0];
                 this.stealthWallet = new TLStealthWallet(appDelegate, stealthWalletDict, this, this.isArchived());

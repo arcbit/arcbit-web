@@ -311,6 +311,7 @@
     "Restore bitcoins and all other wallet data from file": "Restaurar bitcoins y todos los demás datos del monedero de archivo",
     "Restore from a backup passphrase": "Recuperar de una palabra frase de contraseña",
     "Reusable Address": "Reutilizable Dirección",
+    "Reusable address payments are disabled until further notice.": "Los pagos de direcciones reutilizables están deshabilitados hasta nuevo aviso.",    
     "Review Payment": "Revisión Pagos",
     "Save": "Guardar",
     "Save that webpage to a usb drive and then plug the usb drive into an offline computer, preferably one that never touched the internet. Then open the webpage and follow the instructions in step 1 to create your secure cold storage wallet. Step 1 and 4 should be done offline with the saved webpage, and step 2, 3 ad 5 should be done online.": "Guardar esa página web en una unidad USB y luego conecte la unidad USB en un equipo sin conexión, preferiblemente uno que nunca tocó internet. A continuación, abra la página web y seguir las instrucciones en el paso 1 para crear su cartera de almacenamiento en frío seguro. Paso 1 y 4 se deben hacer sin conexión con la página Web guardada, y el paso 2, 3 ad 5 deben hacerse en línea.",

@@ -111,30 +111,33 @@ define(['arcbit', 'backend/port', 'model/TLPreferences', 'model/TLStealthServerC
                     //else success(consecutiveUnusedAccountCount); //DEBUG
                     //success(consecutiveUnusedAccountCount); //DEBUG
                 }
-                accountObject.recoverAccount(true, function(sumMainAndChangeAddressMaxIdx) {
+                accountObject.recoverAccount(false, function(sumMainAndChangeAddressMaxIdx) {
                     console.log("accountName " + accountName + " sumMainAndChangeAddressMaxIdx: " + sumMainAndChangeAddressMaxIdx);
                     if (sumMainAndChangeAddressMaxIdx > -2) {
                         consecutiveUnusedAccountCount = 0;
                         doAgain();
-                    } else {
-                        if (accountObject.stealthWallet) {
-                            accountObject.stealthWallet.checkIfHaveStealthPayments(function(haveStealthPayments) {
-                                if (haveStealthPayments) {
-                                    consecutiveUnusedAccountCount = 0;
-                                } else {
-                                    consecutiveUnusedAccountCount++;
-                                    if (consecutiveUnusedAccountCount == MAX_CONSECUTIVE_UNUSED_ACCOUNT_LOOK_AHEAD_COUNT) {
-                                        success(consecutiveUnusedAccountCount);
-                                        return;
-                                    }
+                    } else if (TLWalletUtils.ENABLE_STEALTH_ADDRESS && accountObject.stealthWallet) {
+                        accountObject.stealthWallet.checkIfHaveStealthPayments(function(haveStealthPayments) {
+                            if (haveStealthPayments) {
+                                consecutiveUnusedAccountCount = 0;
+                            } else {
+                                consecutiveUnusedAccountCount++;
+                                if (consecutiveUnusedAccountCount == MAX_CONSECUTIVE_UNUSED_ACCOUNT_LOOK_AHEAD_COUNT) {
+                                    success(consecutiveUnusedAccountCount);
+                                    return;
                                 }
-                                doAgain();
-                            }, function() {
-                                success(consecutiveUnusedAccountCount);
-                            });
-                        } else {
+                            }
                             doAgain();
+                        }, function() {
+                            success(consecutiveUnusedAccountCount);
+                        });
+                    } else {
+                        consecutiveUnusedAccountCount++;
+                        if (consecutiveUnusedAccountCount == MAX_CONSECUTIVE_UNUSED_ACCOUNT_LOOK_AHEAD_COUNT) {
+                            success(consecutiveUnusedAccountCount);
+                            return;
                         }
+                        doAgain();
                     }
                 }, function() {
                     failure();

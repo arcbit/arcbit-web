@@ -17,6 +17,9 @@ define(['./module', 'arcbit', 'frontend/port', 'model/TLExchangeRate', 'model/TL
             ['$scope', '$location', '$history', 'notify', 'clipboard', 'modals', '$animate', '_Filter', '$tabs', '$translate', '$timeout', '$interval',
                 function($scope, $location, $history, notify, clipboard, modals, $animate, _, $tabs, $translate, $timeout, $interval) {
 
+                    $scope.enableStealthAddress = TLWalletUtils.ENABLE_STEALTH_ADDRESS;
+                    $scope.allowManualScanStealthPayment = TLWalletUtils.ALLOW_MANUAL_SCAN_FOR_STEALTH_PAYMENT;
+                    
                     $scope.forms = {};
                     $scope.identityName = false;
 

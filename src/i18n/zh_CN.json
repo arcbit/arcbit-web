@@ -311,6 +311,7 @@
     "Restore bitcoins and all other wallet data from file": "从文件恢复比特币和所有其他钱包数据",
     "Restore from a backup passphrase": "从备份密码恢复",
     "Reusable Address": "可重用地址",
+    "Reusable address payments are disabled until further notice.": "可重复使用的地址付款被禁用，直至另行通知。",    
     "Review Payment": "审查付款",
     "Save": "保存",
     "Save that webpage to a usb drive and then plug the usb drive into an offline computer, preferably one that never touched the internet. Then open the webpage and follow the instructions in step 1 to create your secure cold storage wallet. Step 1 and 4 should be done offline with the saved webpage, and step 2, 3 ad 5 should be done online.": "将该网页保存到U盘，然后将U盘插入离线电脑（该电脑最好从未接入过互联网）。然后在该离线电脑上打开U盘上的网页，并按照步骤1中的说明，创建安全的冷钱包。您应当在离线状态下通过保存的网页来完成步骤1和4，而步骤2、3和5则必须在线完成。（术语定义：“在线”指“连接到互联网”，“离线”指“从互联网断开”。）",

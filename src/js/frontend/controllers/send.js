@@ -547,6 +547,10 @@ define(['./module', 'frontend/port', 'arcbit', 'bitcoinjs-lib', 'model/TLStealth
                     var stealthAddressCount = 0;
                     for (var i = 0; i < $scope.quicksend.fields.length; i++) {
                         if ($scope.quicksend.fields[i].address != null && TLStealthAddress.isStealthAddress($scope.quicksend.fields[i].address, isTestnet)) {
+                            if (!TLWalletUtils.ENABLE_STEALTH_ADDRESS) {
+                                notify.error(_('Reusable address payments are disabled until further notice.'));
+                                return;
+                            }
                             toStealthAddress = $scope.quicksend.fields[i].address;
                             stealthAddressCount++;
                         }
